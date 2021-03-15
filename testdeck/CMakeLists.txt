@@ -34,6 +34,7 @@ set(testdeck_SRCS
   Strategy.test.cpp
   GoFishUtil.test.cpp
   StrategyHelper.test.cpp
+  HumanStrategy.test.cpp
 )
 
 # Now simply link against gtest or gtest_main as needed. Eg

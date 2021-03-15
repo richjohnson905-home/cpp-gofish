@@ -4,21 +4,24 @@
 #include "IStrategy.h"
 #include "Deck.h"
 #include "Player.h"
+#include "StrategyHelper.h"
 
 #include <vector>
 
 class HumanStrategy : public IStrategy {
 public:
-    HumanStrategy(Player* myPlayer, Deck& deck);
+    HumanStrategy(Player* myPlayer, Deck& deck, StrategyHelper& helper);
 
     void takeTurn(std::vector<Player*>& players);
-
-    // void makeMove(std::vector<Player*>& players);
-    // virtual void doYouHave(int fish, std::vector<Card*>& cards);
+    bool doTakeTurn(std::vector<Player*>& players);
 
 private:
-    // std::vector<Player*>& players_;
-    Player* me_;
+    Player* m_me;
+    StrategyHelper& m_helper;
+    Deck& m_deck;
+
+    bool doTurnCompletion(std::vector<Card*> fishedCards, int bait);
+    std::vector<Card*> goFishing(Player* other, int bait);
 };
 
 #endif
