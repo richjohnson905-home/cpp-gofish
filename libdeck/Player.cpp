@@ -73,13 +73,9 @@ void Player::doYouHave(int bait, vector<Card*>& cards) {
 }
 
 void Player::makeBooks() {
-    vector<int> cardValues;
-    for(vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
-        cardValues.push_back((*it)->getValue());
-    }
     map<int, int> frequency;
-    for(int i: cardValues) {
-        ++frequency[i];
+    for(Card* i: m_hand) {
+        ++frequency[i->getValue()];
     }
     for(const auto& e: frequency) {
         if (e.second == 4) {

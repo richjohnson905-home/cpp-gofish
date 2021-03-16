@@ -96,6 +96,7 @@ TEST(PlayerTest, MakeMove_AsksOthersForCardsOnce) {
 TEST(PlayerTest, MakeBooks) {
     Deck d;
     Player testObject("testObject", d);
+    testObject.pushEasyFish(4);
     Card c1(2, Card::hearts);
     Card c2(4, Card::diamonds);
     Card c3(4, Card::hearts);
@@ -109,6 +110,7 @@ TEST(PlayerTest, MakeBooks) {
     testObject.makeBooks();
     EXPECT_EQ(1, testObject.getBooks().size());
     EXPECT_EQ(1, testObject.getHandSize());
+    EXPECT_FALSE(testObject.hasEasyFish(4));
 }
 
 TEST(PlayerTest, easyFish) {
