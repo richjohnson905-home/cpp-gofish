@@ -1,3 +1,5 @@
+message(STATUS "Building GoFish lib")
+
 set(libgofish_SRCS
     GoFishGame.cpp
     Strategy.cpp

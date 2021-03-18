@@ -82,8 +82,7 @@ void Player::makeBooks() {
             L_(linfo) << "MAKING BOOK for " << e.first << "!!";
             popEasyFish(e.first);
             m_books.push_back(e.first);
-            m_hand.erase(std::remove_if(m_hand.begin(), 
-                              m_hand.end(),
+            m_hand.erase(remove_if(m_hand.begin(), m_hand.end(),
                               [=](Card* x){return x->getValue() == e.first;}),
                                 m_hand.end());
         }
