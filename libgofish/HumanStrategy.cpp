@@ -1,30 +1,66 @@
 #include "HumanStrategy.h"
+#include "Log.h"
 
 #include <iostream>
 
-HumanStrategy::HumanStrategy(Player* myPlayer, Deck& deck):me_(myPlayer) {
+using namespace std;
+
+HumanStrategy::HumanStrategy(Player* myPlayer, Deck& deck, StrategyHelper& helper)
+:m_me(myPlayer), m_helper(helper), m_deck(deck) {
 
 }
 
-void HumanStrategy::takeTurn(std::vector<Player*>& players) {
-
+void HumanStrategy::takeTurn(vector<Player*>& players) {
+    L_(ldebug1) << m_me->getName() << " making first move";
+    while (doTakeTurn(players)) {
+        L_(ldebug1) << m_me->getName() << " making another move";
+    }
+}
+bool HumanStrategy::doTakeTurn(vector<Player*>& players) {
+    int choice = m_helper.getHumansPlayerChoice(players);
+    L_(ldebug1) << "Human chose: " << players.at(choice - 1)->getName();
+    int baitChoice = m_helper.getHumansBaitChoice(m_me);
+    int bait = m_me->getHand()->at(baitChoice - 1)->getValue();
+    L_(ldebug1) << "Human fishing with " << bait;
+    vector<Card*> cards = goFishing(players.at(choice - 1), bait);
+    return doTurnCompletion(cards, bait);
 }
 
-// void HumanStrategy::makeMove(std::vector<Player*>& players) {
-//     // while ask random player for cards gives cards
-//     // else take one card and turn is over
-//     std::cout << me_->getName() << " making move" << std::endl;
-// }
+bool HumanStrategy::doTurnCompletion(vector<Card*> fishedCards, int bait) {
+    std::stringstream ss;
+    for(vector<Card*>::const_iterator it = fishedCards.begin(); it != fishedCards.end(); ++it) {
+        ss << (*it)->getValue() << " ";
+    }
+    L_(ldebug1) << "Turn with bait " << bait << " caught cards " << ss.str(); 
 
-// void HumanStrategy::doYouHave(int fish, std::vector<Card*>& cards) {
-//     // std::vector<Card*>* myCards = me_->getHand();
-//     // std::vector<Card*>::iterator it = myCards->begin();
-//     // while (it != myCards->end()) {
-//     //     if ((*it)->getValue() == fish) {
-//     //         cards.push_back(*it);
-//     //         it = myCards->erase(it);
-//     //     } else {
-//     //         ++it;
-//     //     }
-//     // }
-// }
+    if (fishedCards.size() > 0) {
+        L_(ldebug1) << m_me->getName() << " RECEIVED " << fishedCards.size();
+        m_me->pushHand(fishedCards);
+        
+        if (fishedCards.at(0)->getValue() != bait) {
+            L_(linfo) << m_me->getName() << " move over";
+            return false;
+        } else {
+            L_(linfo) << "Boom - go again player";
+            return true;
+        }
+    } else {
+        return false;
+    }    
+}
+
+vector<Card*> HumanStrategy::goFishing(Player* other, int bait) {
+    vector<Card*> cards; 
+    // ask player
+    // int randomPlayer = m_util.getRandomNumber(0, players.size());
+    // Player* otherPlayer = players.at(randomPlayer);
+    if (!m_me->otherHasCards(other, cards, bait)) {
+        if (m_deck.getDeckSize() > 0) {
+            L_(ldebug1) << "\t" << other->getName() << " told " << m_me->getName() << " to GO FISH!";
+            cards.push_back(m_deck.dealCard());
+        } else {
+            L_(ldebug1) << m_me->getName() << " Deck empty!";
+        }
+    }
+    return cards; 
+}

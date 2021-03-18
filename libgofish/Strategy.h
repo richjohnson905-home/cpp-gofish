@@ -2,7 +2,6 @@
 #define GOFISH_STRATEGEY_H
 
 #include "IStrategy.h"
-// #include "StrategyHelper.h"
 #include "Deck.h"
 #include "CardCompare.h"
 

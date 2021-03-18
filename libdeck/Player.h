@@ -3,7 +3,6 @@
 
 #include "Card.h"
 #include "IStrategy.h"
-// #include "CardCompare.h"
 #include "Deck.h"
 
 #include <vector>

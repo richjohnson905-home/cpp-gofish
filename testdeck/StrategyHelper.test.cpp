@@ -13,7 +13,7 @@ using ::testing::DoAll;
 TEST(StrategyHelperTest, GoEasyFishing) {
     Deck deck;
     StrategyHelper testObject;
-    NiceMock<MockPlayer> me("TestObj", deck);
+    NiceMock<MockPlayer> me("TestMe", deck);
     NiceMock<MockPlayer> other1("Other1", deck);
     NiceMock<MockPlayer> other2("Other2", deck);
     vector<Player*> otherPlayers = {&other1, &other2};

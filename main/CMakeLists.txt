@@ -1,3 +1,5 @@
+message(STATUS "Building Main app")
+
 set(Main_SRCS
     main.cpp
 )

@@ -4,6 +4,7 @@
 #include "Deck.h"
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -55,3 +56,54 @@ set<Card*, CardCompare> StrategyHelper::getPossibleBaitCards(Player* me) const {
     } 
     return setOfCards;
 }
+
+int StrategyHelper::getHumansPlayerChoice(vector<Player*>& players) const {
+    int i = 1;
+    cout << "Select player to fish:" << endl;
+    for (vector<Player*>::iterator it = players.begin(); it != players.end(); ++it) {
+        cout << i++ << ". " << (*it)->getName() << endl; 
+    }
+    int choice = getChoice(players.size());
+    return choice;
+}
+
+int StrategyHelper::getHumansBaitChoice(Player* me) const {
+    int i = 1;
+    cout << "Select card to fish:" << endl;
+    Card* c;
+    for (vector<Card*>::const_iterator it = me->getHand()->begin(); it != me->getHand()->end(); ++it) {
+        cout << i++ << ". " << (*it)->show() << endl;
+    }
+    int choice = getChoice(me->getHandSize());
+    return choice;
+}
+
+int StrategyHelper::getChoice(int maxInput) const {
+    bool validInput = false;
+    int choice;
+    do
+    {
+        cin >> choice;
+        if (choice <= maxInput && choice > 0) {
+            cout << "Good input" << endl;
+            validInput = true;
+        } else {
+            cout << "Bad input, try again" << endl;;
+        }
+    } while (validInput == false);
+    return choice;
+    // bool done = false;
+    // int choice;
+
+    // for (std::string line;
+    //     std::cout << "Enter a choice: " && std::getline(std::cin, line); )
+    // {
+    //     std::istringstream iss(line);
+    //     if (iss >> choice >> std::ws && iss.get() == EOF) { done = true; break; }
+    //     std::cerr << "Failed to parse input '" << line << "', please try again.\n";
+    // }
+
+    // if (!done) { std::cerr << "Premature end of input.\n"; }
+    // else       { std::cout << "Choice: " << choice << "\n";   }
+}
+

@@ -1,6 +1,10 @@
 cmake_minimum_required(VERSION 3.19.6)
 
-project(cardGames CXX)
+set(GOFISH_TOP_DIR ${CMAKE_CURRENT_LIST_DIR})
+
+project(GoFish CXX)
+
+message(STATUS "===( ${PROJECT_NAME} ${PROJECT_VERSION} )===")
 
 # specify the C++ standard
 set(CMAKE_CXX_STANDARD 17)

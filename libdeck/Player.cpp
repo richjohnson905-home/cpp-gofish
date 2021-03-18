@@ -73,21 +73,16 @@ void Player::doYouHave(int bait, vector<Card*>& cards) {
 }
 
 void Player::makeBooks() {
-    vector<int> cardValues;
-    for(vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
-        cardValues.push_back((*it)->getValue());
-    }
     map<int, int> frequency;
-    for(int i: cardValues) {
-        ++frequency[i];
+    for(Card* i: m_hand) {
+        ++frequency[i->getValue()];
     }
     for(const auto& e: frequency) {
         if (e.second == 4) {
             L_(linfo) << "MAKING BOOK for " << e.first << "!!";
             popEasyFish(e.first);
             m_books.push_back(e.first);
-            m_hand.erase(std::remove_if(m_hand.begin(), 
-                              m_hand.end(),
+            m_hand.erase(remove_if(m_hand.begin(), m_hand.end(),
                               [=](Card* x){return x->getValue() == e.first;}),
                                 m_hand.end());
         }
