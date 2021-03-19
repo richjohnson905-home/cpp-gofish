@@ -1,24 +1,23 @@
-#include "gtest/gtest.h"
-
 #include "Card.h"
+#include "doctest.h"
 
-TEST(CardTest, Init) {
+TEST_CASE("init") {
     Card card(2, Card::hearts);
-    EXPECT_EQ(2, card.getValue());
+    CHECK_EQ(2, card.getValue());
 }
 
-TEST(CardTest, InitSuit) {
+TEST_CASE("InitSuit") {
     Card card(2, Card::hearts);
-    EXPECT_EQ(Card::hearts, card.getSuit());
+    CHECK_EQ(Card::hearts, card.getSuit());
 }
 
-TEST(CardTest, CardValue) {
+TEST_CASE("CardValue") {
     Card jack(11, Card::hearts);
-    EXPECT_EQ("J", jack.getCardValue());
+    CHECK_EQ("J", jack.getCardValue());
     Card queen(12, Card::hearts);
-    EXPECT_EQ("Q", queen.getCardValue());
+    CHECK_EQ("Q", queen.getCardValue());
     Card king(13, Card::hearts);
-    EXPECT_EQ("K", king.getCardValue());
+    CHECK_EQ("K", king.getCardValue());
     Card ace(14, Card::hearts);
-    EXPECT_EQ("A", ace.getCardValue());
+    CHECK_EQ("A", ace.getCardValue());
 }

@@ -1,14 +1,10 @@
-#include "gtest/gtest.h"
+
 
 #include "StrategyHelper.h"
 #include "MockPlayer.h"
 
 using namespace std;
-using ::testing::NiceMock;
-using ::testing::Return;
-using ::testing::_;
-using ::testing::SetArgReferee;
-using ::testing::DoAll;
+
 
 TEST(StrategyHelperTest, GoEasyFishing) {
     Deck deck;

@@ -1,4 +1,4 @@
-#include "gmock/gmock.h"
+
 #include "Strategy.h"
 #include "Deck.h"
 #include "StrategyHelper.h"

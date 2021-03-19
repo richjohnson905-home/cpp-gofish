@@ -1,47 +1,42 @@
 message(STATUS "Building Unit Tests ${UNITTEST}")
 
-include(GoogleTest)
 
-# Download and unpack googletest at configure time
-configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "Build step for googletest failed: ${result}")
-endif()
-
-# Prevent overriding the parent project's compiler/linker settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-                 ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
-                 EXCLUDE_FROM_ALL)
-
-set(testdeck_SRCS
-  Testdeck.cpp 
-  Card.test.cpp 
-  Player.test.cpp
-  Strategy.test.cpp
-  GoFishUtil.test.cpp
-  StrategyHelper.test.cpp
-  HumanStrategy.test.cpp
-)
-
-# Now simply link against gtest or gtest_main as needed. Eg
-add_executable(testdeck 
-  ${testdeck_SRCS}
-)
+# set(testdeck_SRCS
+#   Deck.test.cpp 
+#   Card.test.cpp 
+#   Player.test.cpp
+#   Strategy.test.cpp
+#   GoFishUtil.test.cpp
+#   StrategyHelper.test.cpp
+#   HumanStrategy.test.cpp
+# )
   
-target_link_libraries(testdeck libdeck libgofish gmock_main)
+set(FAKEIT_DIRECTORY extern/FakeIt/single_header/standalone)
+#set(FAKEIT_HEADER_FILES ${FAKEIT_DIRECTORY}/fakeit.hpp)
+include_directories(../${FAKEIT_DIRECTORY})
 
-gtest_discover_tests(testdeck)
+add_library(test_main OBJECT test_main.cpp)
+
+add_executable(DeckTest Deck.test.cpp $<TARGET_OBJECTS:test_main>)
+add_test(NAME DeckTest COMMAND DeckTest)
+target_link_libraries(DeckTest libdeck)
+
+add_executable(CardTest Card.test.cpp $<TARGET_OBJECTS:test_main>)
+add_test(NAME CardTest COMMAND CardTest )
+target_link_libraries(CardTest libdeck)
+
+add_executable(GoFishUtilTest GoFishUtil.test.cpp $<TARGET_OBJECTS:test_main>)
+add_test(NAME GoFishUtilTest COMMAND GoFishUtilTest )
+target_link_libraries(GoFishUtilTest libgofish)
+
+add_executable(HumanStrategyTest HumanStrategy.test.cpp $<TARGET_OBJECTS:test_main>)
+add_test(NAME HumanStrategyTest COMMAND HumanStrategyTest )
+target_link_libraries(HumanStrategyTest libgofish)
+
+add_executable(PlayerTest Player.test.cpp $<TARGET_OBJECTS:test_main>)
+add_test(NAME PlayerTest COMMAND PlayerTest )
+target_link_libraries(PlayerTest libdeck libgofish)
+
+add_executable(StrategyTest Strategy.test.cpp $<TARGET_OBJECTS:test_main>)
+add_test(NAME StrategyTest COMMAND StrategyTest )
+target_link_libraries(StrategyTest libgofish)

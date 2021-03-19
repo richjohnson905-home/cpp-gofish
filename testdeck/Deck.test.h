@@ -1,17 +1,18 @@
-#include "gtest/gtest.h"
 
 // The fixture for testing class Foo.
-class DeckTest : public ::testing::Test {
+class DeckTestFixture {
 
 protected:
 
     // You can do set-up work for each test here.
-    DeckTest();
+    DeckTestFixture();
 
     // You can do clean-up work that doesn't throw exceptions here.
-    virtual ~DeckTest();
+    virtual ~DeckTestFixture();
 
     virtual void SetUp();
 
     virtual void TearDown();
+
+    Deck m_deck;
 };

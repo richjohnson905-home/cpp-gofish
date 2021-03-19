@@ -1,33 +1,41 @@
-#include "gtest/gtest.h"
+
 #include "Strategy.test.h"
 #include "Strategy.h"
 #include "Log.h"
+#include "doctest.h"
+#include "fakeit.hpp"
 
 #include <vector>
 
-using ::testing::Return;
-using ::testing::_;
-using ::testing::SetArgReferee;
-using ::testing::DoAll;
 using namespace std;
+using namespace fakeit;
 
-StrategyTest::StrategyTest():
-    m_me("TEST_ME", m_deck),
+StrategyTestFixture::StrategyTestFixture():
+    m_me("TestUser", m_deck),
     m_otherPlayer("TEST_OTHER_PLAYER", m_deck),
     m_testObject(m_helper, m_me, m_deck)
 {
     
 }
 
-StrategyTest::~StrategyTest() {};
+StrategyTestFixture::~StrategyTestFixture() {};
 
-void StrategyTest::SetUp() {
+void StrategyTestFixture::SetUp() {
     m_otherplayers.push_back(&m_otherPlayer);
-    ON_CALL(m_me, getHandSize()).WillByDefault(Return(5));
+    // ON_CALL(m_me, getHandSize()).WillByDefault(Return(5));
 };
 
-void StrategyTest::TearDown() {};
+void StrategyTestFixture::TearDown() {};
 
+TEST_CASE_FIXTURE(StrategyTestFixture, "doTakeTurn_WithEmptyHand") {
+    Mock<Player> spy(m_me);
+    auto mock = spy.get();
+    When(Method(spy, getHandSize)).AlwaysReturn(0);
+    m_testObject.takeTurn(m_otherplayers);
+    //VerifyNoOtherInvocations(spy);
+}
+
+/*
 TEST_F(StrategyTest, doTakeTurn_WithEmptyHand) {
     
     
@@ -80,3 +88,4 @@ TEST_F(StrategyTest, doTakeTurn_HardFish) {
 
     m_testObject.takeTurn(m_otherplayers);
 }
+*/
