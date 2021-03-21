@@ -1,12 +1,12 @@
 message(STATUS "Building GoFish lib")
 
 set(libgofish_SRCS
-    GoFishGame.cpp
-    Strategy.cpp
-    HumanStrategy.cpp
-    GoFishUtil.cpp
-    StrategyHelper.cpp
-)
+        GoFishGame.cpp
+        Strategy.cpp
+        HumanStrategy.cpp
+        GoFishUtil.cpp
+        StrategyHelper.cpp
+        TurnHelper.cpp TurnHelper.h)
 
 # Declare the library
 add_library(libgofish STATIC

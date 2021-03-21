@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.19.6)
+cmake_minimum_required(VERSION 3.17.5)
 
 set(GOFISH_TOP_DIR ${CMAKE_CURRENT_LIST_DIR})
 

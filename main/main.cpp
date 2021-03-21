@@ -5,6 +5,7 @@
 #include "Player.h"
 #include "Strategy.h"
 #include "StrategyHelper.h"
+#include "TurnHelper.h"
 #include "HumanStrategy.h"
 #include "Log.h"
 
@@ -22,13 +23,16 @@ int main(int argc, char *argv[]) {
     players.push_back(&h);
 
     StrategyHelper helper;
-    Strategy goFishStrategyAi1(helper, ai1, deck);
-    Strategy goFishStrategyAi2(helper, ai2, deck);
+    TurnHelper turnHelper1(helper, ai1);
+    TurnHelper turnHelper2(helper, ai2);
+    TurnHelper turnHelperH(helper, h);
+    Strategy goFishStrategyAi1(turnHelper1, ai1, deck);
+    Strategy goFishStrategyAi2(turnHelper2, ai2, deck);
     if (argc > 1) {
         HumanStrategy humanStrategy(&h, deck, helper);
         h.setStrategy(&humanStrategy);
     } else {
-        Strategy goFishStrategyAi3(helper, h, deck);
+        Strategy goFishStrategyAi3(turnHelperH, h, deck);
         h.setStrategy(&goFishStrategyAi3);
     }
     // Strategy goFishStrategyAi3(helper, h, deck);

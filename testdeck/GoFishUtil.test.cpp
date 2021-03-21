@@ -1,4 +1,4 @@
-#include "gtest/gtest.h"
+#include "catch.hpp"
 
 #include "GoFishUtil.h"
 #include "Player.h"
@@ -8,7 +8,7 @@
 
 using namespace std;
 
-TEST(GoFishUtilTest, RemovePlayer) {
+TEST_CASE("GoFishUtilTest", "RemovePlayer") {
     Deck deck;
     Player p1("one", deck);
     p1.pushHand(deck.dealCard());
@@ -20,5 +20,5 @@ TEST(GoFishUtilTest, RemovePlayer) {
 
     GoFishUtil testObject;
     vector<Player*> withoutP2 = testObject.removePlayer(players, &p2);
-    EXPECT_EQ(2, withoutP2.size());
+    CHECK(2 == withoutP2.size());
 }

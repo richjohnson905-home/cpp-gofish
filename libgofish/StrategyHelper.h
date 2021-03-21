@@ -14,9 +14,8 @@ class Deck;
 
 class StrategyHelper {
 public:
-
-    virtual std::vector<Card*> goEasyFishing(Player* me, std::vector<Player*>& players, int& bait);
-    virtual std::vector<Card*> goFishing(Player* me, Deck& deck, std::vector<Player*>& players, int bait);
+    virtual std::optional<std::pair<Player*, int>> goEasyFishing(Player* me, std::vector<Player*>& players);
+    virtual std::optional<Player*> getFishPlayer(std::vector<Player*>& players) const;
     virtual int getBaitCard(Player* me) const;
     virtual std::set<Card*, CardCompare> getPossibleBaitCards(Player* me) const;
     virtual int getHumansPlayerChoice(std::vector<Player*>& players) const;

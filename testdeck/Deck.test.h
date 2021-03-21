@@ -1,7 +1,7 @@
-#include "gtest/gtest.h"
+#include "catch.hpp"
 
 // The fixture for testing class Foo.
-class DeckTest : public ::testing::Test {
+class DeckTest {
 
 protected:
 

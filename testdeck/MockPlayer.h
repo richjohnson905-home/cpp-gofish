@@ -1,4 +1,4 @@
-#include "gmock/gmock.h"
+#include "trompeloeil.hpp"
 #include "Player.h"
 
 class MockPlayer : public Player
@@ -6,10 +6,11 @@ class MockPlayer : public Player
 public:
     MockPlayer(std::string name, Deck& deck):Player(name, deck){}
 
-    MOCK_METHOD0(getHand, std::vector<Card*>*());
-    MOCK_METHOD1(pushEasyFish, void(int));
-    MOCK_CONST_METHOD1(hasEasyFish, bool(int));
-    MOCK_CONST_METHOD0(getHandSize, int());
-    MOCK_METHOD3(otherHasCards, bool(Player*, std::vector<Card*>&, int));
-
+    MAKE_MOCK0(getHand, std::vector<Card*>*(), override);
+    MAKE_MOCK1(pushEasyFish, void(int), override);
+    MAKE_CONST_MOCK1(hasEasyFish, bool(int), override);
+    MAKE_CONST_MOCK0(getHandSize, int(), override);
+    MAKE_MOCK2(askPlayerForCards, std::vector<Card*>(Player*, int), override);
+    MAKE_MOCK1(pushHand, void(std::vector<Card*>), override);
+    MAKE_MOCK1(pushHandCard, void(Card*), override);
 };

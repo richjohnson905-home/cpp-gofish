@@ -1,15 +1,10 @@
-#include "gtest/gtest.h"
+#include "catch.hpp"
 
 #include "StrategyHelper.h"
-#include "MockPlayer.h"
 
 using namespace std;
-using ::testing::NiceMock;
-using ::testing::Return;
-using ::testing::_;
-using ::testing::SetArgReferee;
-using ::testing::DoAll;
 
+/*
 TEST(StrategyHelperTest, GoEasyFishing) {
     Deck deck;
     StrategyHelper testObject;
@@ -72,3 +67,4 @@ TEST(StrategyHelperTest, getBaitCard) {
     EXPECT_TRUE(bait == 3 || bait == 4);
 
 }
+ */

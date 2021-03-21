@@ -20,7 +20,7 @@ int Player::getHandSize() const {
     return m_hand.size();
 }
 
-void Player::pushHand(Card* c) {
+void Player::pushHandCard(Card* c) {
     m_hand.push_back(c);
 }
 
@@ -48,12 +48,11 @@ void Player::setStrategy(IStrategy* strategy) {
     m_strategy = strategy;
 }
 
-bool Player::otherHasCards(Player* p, vector<Card*>& cards, int fish) {
-    p->doYouHave(fish, cards);
-    return cards.size() > 0;
+vector<Card*> Player::askPlayerForCards(Player* p, int bait) {
+    return p->doYouHave(bait);
 }
 
-void Player::doYouHave(int bait, vector<Card*>& cards) {
+vector<Card*> Player::doYouHave(int bait) {
     std::stringstream ss;
     for(vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
         ss << (*it)->getValue() << " ";
@@ -61,15 +60,18 @@ void Player::doYouHave(int bait, vector<Card*>& cards) {
     L_(ldebug1) << "\t" << m_name << " being asked for " << bait << " from my " << ss.str();
     
     popEasyFish(bait);
+
+    vector<Card*> returnCards;
     vector<Card*>::iterator it = m_hand.begin();
     while (it != m_hand.end()) {
         if ((*it)->getValue() == bait) {
-            cards.push_back(*it);
+            returnCards.push_back(*it);
             it = m_hand.erase(it);
         } else {
             ++it;
         }
     }
+    return returnCards;
 }
 
 void Player::makeBooks() {

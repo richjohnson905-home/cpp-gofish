@@ -1,47 +1,30 @@
 message(STATUS "Building Unit Tests ${UNITTEST}")
 
-include(GoogleTest)
-
-# Download and unpack googletest at configure time
-configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-execute_process(COMMAND ${CMAKE_COMMAND} -G "${CMAKE_GENERATOR}" .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "CMake step for googletest failed: ${result}")
-endif()
-execute_process(COMMAND ${CMAKE_COMMAND} --build .
-  RESULT_VARIABLE result
-  WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/googletest-download )
-if(result)
-  message(FATAL_ERROR "Build step for googletest failed: ${result}")
-endif()
-
-# Prevent overriding the parent project's compiler/linker settings on Windows
-set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-set(INSTALL_GTEST OFF CACHE BOOL "" FORCE)
-
-# Add googletest directly to our build. This defines
-# the gtest and gtest_main targets.
-add_subdirectory(${CMAKE_CURRENT_BINARY_DIR}/googletest-src
-                 ${CMAKE_CURRENT_BINARY_DIR}/googletest-build
-                 EXCLUDE_FROM_ALL)
 
 set(testdeck_SRCS
-  Testdeck.cpp 
-  Card.test.cpp 
-  Player.test.cpp
-  Strategy.test.cpp
-  GoFishUtil.test.cpp
-  StrategyHelper.test.cpp
-  HumanStrategy.test.cpp
+        Deck.test.cpp
+        Card.test.cpp
+        Player.test.cpp
+        Strategy.test.cpp
+        GoFishUtil.test.cpp
+        StrategyHelper.test.cpp
+        HumanStrategy.test.cpp
+        TurnHelper.test.cpp
 )
 
-# Now simply link against gtest or gtest_main as needed. Eg
-add_executable(testdeck 
-  ${testdeck_SRCS}
-)
-  
-target_link_libraries(testdeck libdeck libgofish gmock_main)
+add_executable(DeckTest Deck.test.cpp catch.hpp catch.cpp)
+add_test(NAME DeckTest COMMAND DeckTest)
+target_link_libraries(DeckTest libdeck)
 
-gtest_discover_tests(testdeck)
+add_executable(CardTest Card.test.cpp catch.hpp catch.cpp)
+add_test(NAME CardTest COMMAND CardTest)
+target_link_libraries(CardTest libdeck)
+
+add_executable(StrategyTest Strategy.test.cpp catch.hpp catch.cpp  MockTurnHelper.h)
+add_test(NAME StrategyTest COMMAND StrategyTest )
+target_link_libraries(StrategyTest libgofish)
+
+add_executable(TurnHelperTest TurnHelper.test.cpp catch.hpp catch.cpp MockStrategyHelper.h)
+add_test(NAME TurnHelperTest COMMAND TurnHelperTest )
+target_link_libraries(TurnHelperTest libgofish)
+

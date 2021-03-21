@@ -29,7 +29,7 @@ void GoFishGame::playRound(int round) {
 void GoFishGame::deal() {
     for (int i = 0; i < m_cardCount; ++i) {
         for (vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it) {
-            (*it)->pushHand(m_deck.dealCard());
+            (*it)->pushHandCard(m_deck.dealCard());
         }
     }
 }
