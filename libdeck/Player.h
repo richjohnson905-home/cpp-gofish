@@ -24,7 +24,7 @@ public:
     
     void setStrategy(IStrategy* strategy);
     std::string getName() {return m_name;}
-    virtual std::vector<Card*>* getHand() {return &m_hand;}
+    virtual const std::vector<Card*>* getHand() const {return &m_hand;}
     virtual std::vector<Card*> doYouHave(int bait);
     std::vector<int> getBooks() const {return m_books;}
 

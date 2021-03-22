@@ -6,7 +6,7 @@ class MockPlayer : public Player
 public:
     MockPlayer(std::string name, Deck& deck):Player(name, deck){}
 
-    MAKE_MOCK0(getHand, std::vector<Card*>*(), override);
+    MAKE_CONST_MOCK0(getHand, const std::vector<Card*>*(), override);
     MAKE_MOCK1(pushEasyFish, void(int), override);
     MAKE_CONST_MOCK1(hasEasyFish, bool(int), override);
     MAKE_CONST_MOCK0(getHandSize, int(), override);

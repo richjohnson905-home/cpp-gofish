@@ -1,6 +1,5 @@
 #include "catch.hpp"
 
-#include "Strategy.h"
 #include "Player.h"
 #include "Card.h"
 #include "Deck.h"
@@ -11,15 +10,15 @@ TEST_CASE("PlayerTest", "PushCards") {
     Deck d;
     Player p1("dummy1", d);
     
-    p1.pushHand(d.dealCard());
-    p1.pushHand(d.dealCard());
-    p1.pushHand(d.dealCard());
-    p1.pushHand(d.dealCard());
-    p1.pushHand(d.dealCard());
+    p1.pushHandCard(d.dealCard());
+    p1.pushHandCard(d.dealCard());
+    p1.pushHandCard(d.dealCard());
+    p1.pushHandCard(d.dealCard());
+    p1.pushHandCard(d.dealCard());
     CHECK(5 == p1.getHandSize());
 }
-/*
-TEST(PlayerTest, SortHand) {
+
+TEST_CASE("PushHand") {
     Deck d;
     Player p1("dummy1", d);
     
@@ -28,22 +27,22 @@ TEST(PlayerTest, SortHand) {
     Card c3(3, Card::spades);
     Card c4(10, Card::spades);
     Card c5(6, Card::spades);
-    p1.pushHand(&c1);
-    p1.pushHand(&c2);
-    p1.pushHand(&c3);
-    p1.pushHand(&c4);
-    p1.pushHand(&c5);
+    p1.pushHandCard(&c1);
+    p1.pushHandCard(&c2);
+    p1.pushHandCard(&c3);
+    p1.pushHandCard(&c4);
+    p1.pushHandCard(&c5);
 
     p1.sortHand();
 
-    EXPECT_EQ(2, p1.getHand()->at(0)->getValue());
-    EXPECT_EQ(3, p1.getHand()->at(1)->getValue());
-    EXPECT_EQ(6, p1.getHand()->at(2)->getValue());
-    EXPECT_EQ(9, p1.getHand()->at(3)->getValue());
-    EXPECT_EQ(10, p1.getHand()->at(4)->getValue());
+    CHECK(2 == p1.getHand()->at(0)->getValue());
+    CHECK(3 == p1.getHand()->at(1)->getValue());
+    CHECK(6 == p1.getHand()->at(2)->getValue());
+    CHECK(9 == p1.getHand()->at(3)->getValue());
+    CHECK(10 == p1.getHand()->at(4)->getValue());
 }
 
-TEST(PlayerTest, DoYouHaveTwos) {
+TEST_CASE("DoYouHaveTwos") {
     Deck d;
     Player testObject("dummy", d);
 
@@ -52,22 +51,22 @@ TEST(PlayerTest, DoYouHaveTwos) {
     Card c3(3, Card::spades);
     Card c4(10, Card::spades);
     Card c5(6, Card::spades);
-    testObject.pushHand(&c1);
-    testObject.pushHand(&c2);
-    testObject.pushHand(&c3);
-    testObject.pushHand(&c4);
-    testObject.pushHand(&c5);
-    EXPECT_EQ(5, testObject.getHandSize());
+    testObject.pushHandCard(&c1);
+    testObject.pushHandCard(&c2);
+    testObject.pushHandCard(&c3);
+    testObject.pushHandCard(&c4);
+    testObject.pushHandCard(&c5);
+    CHECK(5 == testObject.getHandSize());
     vector<Card*> actual;
 
-    testObject.doYouHave(2, actual);
+    actual = testObject.doYouHave(2);
 
-    EXPECT_EQ(1, actual.size());
-    EXPECT_EQ(2, actual.at(0)->getValue());
-    EXPECT_EQ(4, testObject.getHandSize());
+    CHECK(1 == actual.size());
+    CHECK(2 == actual.at(0)->getValue());
+    CHECK(4 == testObject.getHandSize());
 }
 
-TEST(PlayerTest, MakeMove_AsksOthersForCardsOnce) {
+TEST_CASE("MakeMove_AsksOthersForCardsOnce") {
     Deck d;
     Player testObject("testObject", d);
     Card c1(2, Card::hearts);
@@ -75,25 +74,24 @@ TEST(PlayerTest, MakeMove_AsksOthersForCardsOnce) {
     Card c3(3, Card::spades);
     Card c4(10, Card::spades);
     Card c5(6, Card::spades);
-    testObject.pushHand(&c1);
-    testObject.pushHand(&c2);
-    testObject.pushHand(&c3);
-    testObject.pushHand(&c4);
-    testObject.pushHand(&c5);
+    testObject.pushHandCard(&c1);
+    testObject.pushHandCard(&c2);
+    testObject.pushHandCard(&c3);
+    testObject.pushHandCard(&c4);
+    testObject.pushHandCard(&c5);
     Player p1("dummy2", d);
     Card c6(2, Card::diamonds);
     Card c7(4, Card::spades);
-    p1.pushHand(&c6);
-    p1.pushHand(&c7);
+    p1.pushHandCard(&c6);
+    p1.pushHandCard(&c7);
     //vector<Player*> m_otherplayers{&p1};
-    vector<Card*> cards;
-    testObject.otherHasCards(&p1, cards, 2);
+    vector<Card*> cards = testObject.askPlayerForCards(&p1, 2);
 
-    EXPECT_EQ(5, testObject.getHandSize());
-    EXPECT_EQ(1, p1.getHandSize());
+    CHECK(5 == testObject.getHandSize());
+    CHECK(1 == p1.getHandSize());
 }
 
-TEST(PlayerTest, MakeBooks) {
+TEST_CASE("MakeBooks") {
     Deck d;
     Player testObject("testObject", d);
     testObject.pushEasyFish(4);
@@ -102,32 +100,31 @@ TEST(PlayerTest, MakeBooks) {
     Card c3(4, Card::hearts);
     Card c4(4, Card::spades);
     Card c5(4, Card::clubs);
-    testObject.pushHand(&c1);
-    testObject.pushHand(&c2);
-    testObject.pushHand(&c3);
-    testObject.pushHand(&c4);
-    testObject.pushHand(&c5);
+    testObject.pushHandCard(&c1);
+    testObject.pushHandCard(&c2);
+    testObject.pushHandCard(&c3);
+    testObject.pushHandCard(&c4);
+    testObject.pushHandCard(&c5);
     testObject.makeBooks();
-    EXPECT_EQ(1, testObject.getBooks().size());
-    EXPECT_EQ(1, testObject.getHandSize());
-    EXPECT_FALSE(testObject.hasEasyFish(4));
+    CHECK(1 == testObject.getBooks().size());
+    CHECK(1 == testObject.getHandSize());
+    CHECK_FALSE(testObject.hasEasyFish(4));
 }
 
-TEST(PlayerTest, easyFish) {
+TEST_CASE("easyFish") {
     Deck d;
     Player testObject("testObject", d);
     testObject.pushEasyFish(6);
     testObject.pushEasyFish(9);
-    EXPECT_EQ(2, testObject.getEasyFish().size());
-    EXPECT_TRUE(testObject.hasEasyFish(6));
-    EXPECT_TRUE(testObject.hasEasyFish(9));
+    CHECK(2 == testObject.getEasyFish().size());
+    CHECK(testObject.hasEasyFish(6));
+    CHECK(testObject.hasEasyFish(9));
     testObject.popEasyFish(6);
-    EXPECT_EQ(1, testObject.getEasyFish().size());
-    EXPECT_FALSE(testObject.hasEasyFish(6));
-    EXPECT_TRUE(testObject.hasEasyFish(9));
+    CHECK(1 == testObject.getEasyFish().size());
+    CHECK_FALSE(testObject.hasEasyFish(6));
+    CHECK(testObject.hasEasyFish(9));
     testObject.popEasyFish(9);
-    EXPECT_EQ(0, testObject.getEasyFish().size());
-    EXPECT_FALSE(testObject.hasEasyFish(6));
-    EXPECT_FALSE(testObject.hasEasyFish(9));
+    CHECK(0 == testObject.getEasyFish().size());
+    CHECK_FALSE(testObject.hasEasyFish(6));
+    CHECK_FALSE(testObject.hasEasyFish(9));
 }
- */

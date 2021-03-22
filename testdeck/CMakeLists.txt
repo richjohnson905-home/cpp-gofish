@@ -28,3 +28,14 @@ add_executable(TurnHelperTest TurnHelper.test.cpp catch.hpp catch.cpp MockStrate
 add_test(NAME TurnHelperTest COMMAND TurnHelperTest )
 target_link_libraries(TurnHelperTest libgofish)
 
+add_executable(GoFishUtilTest GoFishUtil.test.cpp catch.hpp catch.cpp)
+add_test(NAME GoFishUtilTest COMMAND GoFishUtilTest )
+target_link_libraries(GoFishUtilTest libgofish)
+
+add_executable(PlayerTest Player.test.cpp catch.hpp catch.cpp)
+add_test(NAME PlayerTest COMMAND PlayerTest )
+target_link_libraries(PlayerTest libdeck)
+
+add_executable(StrategyHelperTest StrategyHelper.test.cpp catch.hpp catch.cpp)
+add_test(NAME StrategyHelperTest COMMAND StrategyHelperTest )
+target_link_libraries(StrategyHelperTest libgofish)

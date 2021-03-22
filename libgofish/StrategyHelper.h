@@ -23,7 +23,7 @@ public:
 private:
     GoFishUtil m_util;
 
-    int getChoice(int maxInput) const;
+    static int getChoice(int maxInput) ;
 };
 
 #endif

@@ -9,17 +9,16 @@
 using namespace std;
 
 optional<pair<Player*, int>> StrategyHelper::goEasyFishing(Player* me, std::vector<Player*>& players) {
-    optional<pair<Player*, int>> optionalResult;
-    vector<Card*> cards;
-    for(vector<Player*>::iterator it = players.begin(); it != players.end(); ++it) {
-        for (vector<Card*>::iterator cit = me->getHand()->begin(); cit != me->getHand()->end(); ++cit) {
-            if ((*it)->hasEasyFish((*cit)->getValue())) {
-                pair<Player*, int> result = make_pair((*it), (*cit)->getValue());
-                optionalResult = result;
+    vector<Card*>::const_iterator cit;
+    for(auto & player : players) {
+        for (cit = me->getHand()->begin(); cit != me->getHand()->end(); ++cit) {
+            if (player->hasEasyFish((*cit)->getValue())) {
+                L_(ldebug1) << "Easy Fish found: " << player->getName() << " with " << (*cit)->getValue();
+                return make_pair(player, (*cit)->getValue());
             }
         }
     }
-    return optionalResult;
+    return nullopt;
 }
 
 std::optional<Player*> StrategyHelper::getFishPlayer(std::vector<Player*>& players) const {
@@ -27,6 +26,7 @@ std::optional<Player*> StrategyHelper::getFishPlayer(std::vector<Player*>& playe
     return optional<Player*>(players.at(randomPlayer));
 }
 
+// This strategy can be improved.  Best card to use as bait?  Not random
 int StrategyHelper::getBaitCard(Player* me) const {
     set<Card*, CardCompare> fishableCards = getPossibleBaitCards(me);
     int randomFishCard = m_util.getRandomNumber(0, fishableCards.size());
@@ -47,8 +47,8 @@ set<Card*, CardCompare> StrategyHelper::getPossibleBaitCards(Player* me) const {
 int StrategyHelper::getHumansPlayerChoice(vector<Player*>& players) const {
     int i = 1;
     cout << "Select player to fish:" << endl;
-    for (vector<Player*>::iterator it = players.begin(); it != players.end(); ++it) {
-        cout << i++ << ". " << (*it)->getName() << endl; 
+    for (auto & player : players) {
+        cout << i++ << ". " << player->getName() << endl;
     }
     int choice = getChoice(players.size());
     return choice;
@@ -58,14 +58,14 @@ int StrategyHelper::getHumansBaitChoice(Player* me) const {
     int i = 1;
     cout << "Select card to fish:" << endl;
     Card* c;
-    for (vector<Card*>::const_iterator it = me->getHand()->begin(); it != me->getHand()->end(); ++it) {
-        cout << i++ << ". " << (*it)->show() << endl;
+    for (auto & it : *me->getHand()) {
+        cout << i++ << ". " << it->show() << endl;
     }
     int choice = getChoice(me->getHandSize());
     return choice;
 }
 
-int StrategyHelper::getChoice(int maxInput) const {
+int StrategyHelper::getChoice(int maxInput) {
     bool validInput = false;
     int choice;
     do
@@ -77,7 +77,7 @@ int StrategyHelper::getChoice(int maxInput) const {
         } else {
             cout << "Bad input, try again" << endl;;
         }
-    } while (validInput == false);
+    } while (!validInput);
     return choice;
 }
 
