@@ -11,6 +11,16 @@
 
 class Player
 {
+protected:
+    std::vector<Card*> m_hand;
+    std::string m_name;
+    IStrategy* m_strategy;
+    std::vector<int> m_books;
+    Deck& m_deck;
+    std::vector<int> m_easyFish;
+
+    static bool customCompare(const Card *lhs, const Card *rhs);
+
 public:
     Player(std::string name, Deck& deck);
     virtual ~Player() {}
@@ -32,21 +42,11 @@ public:
     virtual void pushEasyFish(int fish);
     void popEasyFish(int fish);
     virtual bool hasEasyFish(int bait) const;
-    
 
     // test public
     void makeBooks();
     std::vector<int> getEasyFish();
     
-protected:
-    std::vector<Card*> m_hand;
-    std::string m_name;
-    IStrategy* m_strategy;
-    std::vector<int> m_books;
-    Deck& m_deck;
-    std::vector<int> m_easyFish;
-
-    static bool customCompare(const Card *lhs, const Card *rhs);
 };
  
 

@@ -43,7 +43,7 @@ bool TurnHelper::hardFish(std::vector<Player *> &players, Deck& deck)
         m_me.pushEasyFish(bait);
         optional<pair<Player*, int>> optPlayerAndBait = make_pair(p.value(), bait);
         vector<Card*> cards = askPlayer(optPlayerAndBait);
-        if (cards.size() > 0)
+        if (!cards.empty())
         {
             L_(ldebug1) << " Hard-won cards size: " << cards.size();
             acceptCards(cards);
@@ -80,12 +80,12 @@ vector<Card*> TurnHelper::askPlayer(std::optional<std::pair<Player*, int>>& optP
 void TurnHelper::acceptCards(std::vector<Card *> &fishedCards)
 {
     std::stringstream ss;
-    for(vector<Card*>::const_iterator it = fishedCards.begin(); it != fishedCards.end(); ++it) {
+    for(auto it = fishedCards.begin(); it != fishedCards.end(); ++it) {
         ss << (*it)->getValue() << " ";
     }
     L_(ldebug1) << " caught cards " << ss.str();
 
-    if (fishedCards.size() > 0) {
+    if (!fishedCards.empty()) {
         L_(ldebug1) << m_me.getName() << " RECEIVED " << fishedCards.size();
         m_me.pushHand(fishedCards);
     }

@@ -5,6 +5,7 @@
 #include "CardCompare.h"
 
 #include <set>
+#include <map>
 #include <vector>
 #include <functional>
 
@@ -13,6 +14,11 @@ class Player;
 class Deck;
 
 class StrategyHelper {
+private:
+    GoFishUtil m_util;
+
+    static int getChoice(int maxInput) ;
+
 public:
     virtual std::optional<std::pair<Player*, int>> goEasyFishing(Player* me, std::vector<Player*>& players);
     virtual std::optional<Player*> getFishPlayer(std::vector<Player*>& players) const;
@@ -20,10 +26,6 @@ public:
     virtual std::set<Card*, CardCompare> getPossibleBaitCards(Player* me) const;
     virtual int getHumansPlayerChoice(std::vector<Player*>& players) const;
     virtual int getHumansBaitChoice(Player* me) const;
-private:
-    GoFishUtil m_util;
-
-    static int getChoice(int maxInput) ;
 };
 
 #endif

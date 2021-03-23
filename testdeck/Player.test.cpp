@@ -1,6 +1,6 @@
 #include "catch.hpp"
 
-#include "Player.h"
+#include "../libgofish/Player.h"
 #include "Card.h"
 #include "Deck.h"
 

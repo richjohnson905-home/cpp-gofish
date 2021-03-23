@@ -13,15 +13,17 @@ class Player;
 class StrategyHelper;
 
 class Strategy : public IStrategy {
+private:
+    Player& m_me;
+    Deck& m_deck;
+    TurnHelper& m_turnHelper;
+
 public:
     virtual ~Strategy() {}
     Strategy(TurnHelper& turnHelper, Player& myPlayer, Deck& deck);
 
     void takeTurn(std::vector<Player*>& players);
- private:
-    Player& m_me;
-    Deck& m_deck;
-    TurnHelper& m_turnHelper;
+
  };
 
 #endif

@@ -22,8 +22,25 @@ optional<pair<Player*, int>> StrategyHelper::goEasyFishing(Player* me, std::vect
 }
 
 std::optional<Player*> StrategyHelper::getFishPlayer(std::vector<Player*>& players) const {
-    int randomPlayer = m_util.getRandomNumber(0, players.size());
-    return optional<Player*>(players.at(randomPlayer));
+    vector<Player*> playersWithCards;
+    playersWithCards.reserve(players.size());
+    for (auto & player : players) {
+        if (!player->getHand()->empty()) {
+            playersWithCards.push_back(player);
+        }
+    }
+    if (playersWithCards.empty()) {
+        L_(linfo) << "NO FISH PLAYERS REMAIN";
+        return nullopt;
+    } else if (playersWithCards.size() == 1) {
+        L_(linfo) << "ONE OTHER FISH PLAYER REMAINS: " << playersWithCards.front()->getName();
+        return playersWithCards.front();
+    } else {
+        L_(ldebug1) << "MULTIPLE PLAYERS REMAIN";
+        int randomPlayer = m_util.getRandomNumber(0, players.size());
+        return optional<Player*>(players.at(randomPlayer));
+    }
+
 }
 
 // This strategy can be improved.  Best card to use as bait?  Not random

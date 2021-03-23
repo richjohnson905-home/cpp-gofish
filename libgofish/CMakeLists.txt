@@ -6,7 +6,8 @@ set(libgofish_SRCS
         HumanStrategy.cpp
         GoFishUtil.cpp
         StrategyHelper.cpp
-        TurnHelper.cpp TurnHelper.h)
+        TurnHelper.cpp
+        Player.cpp)
 
 # Declare the library
 add_library(libgofish STATIC

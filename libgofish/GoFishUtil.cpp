@@ -1,5 +1,4 @@
 #include "GoFishUtil.h"
-#include "Card.h"
 #include "Player.h"
 
 #include <algorithm>

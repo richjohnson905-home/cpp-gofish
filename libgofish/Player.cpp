@@ -1,9 +1,9 @@
 #include "Player.h"
 #include "Log.h"
 
-#include <time.h>
 #include <iostream>
 #include <map>
+#include <utility>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ bool Player::customCompare(const Card* lhs, const Card* rhs) {
     return lhs->getValue() < rhs->getValue(); 
 }
 
-Player::Player(string name, Deck& deck):m_name(name), m_deck(deck){
+Player::Player(string name, Deck& deck):m_name(move(name)), m_deck(deck), m_strategy(nullptr){
 
 }
 
@@ -30,8 +30,8 @@ void Player::pushHand(vector<Card*> cards) {
 
 void Player::showHand() const {
     cout << m_name << "'s Hand contains: " << m_hand.size() << endl;
-    for (vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
-        cout << ' ' << (*it)->show() << endl;
+    for (auto it : m_hand) {
+        cout << ' ' << it->show() << endl;
     }
 }
 
@@ -41,7 +41,6 @@ void Player::sortHand() {
 
 void Player::takeTurn(vector<Player*>& players) {
     m_strategy->takeTurn(players);
-    makeBooks();
 }
 
 void Player::setStrategy(IStrategy* strategy) {
@@ -54,7 +53,7 @@ vector<Card*> Player::askPlayerForCards(Player* p, int bait) {
 
 vector<Card*> Player::doYouHave(int bait) {
     std::stringstream ss;
-    for(vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
+    for(auto it = m_hand.begin(); it != m_hand.end(); ++it) {
         ss << (*it)->getValue() << " ";
     }
     L_(ldebug1) << "\t" << m_name << " being asked for " << bait << " from my " << ss.str();
@@ -62,7 +61,7 @@ vector<Card*> Player::doYouHave(int bait) {
     popEasyFish(bait);
 
     vector<Card*> returnCards;
-    vector<Card*>::iterator it = m_hand.begin();
+    auto it = m_hand.begin();
     while (it != m_hand.end()) {
         if ((*it)->getValue() == bait) {
             returnCards.push_back(*it);

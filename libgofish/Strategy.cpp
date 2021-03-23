@@ -20,6 +20,7 @@ void Strategy::takeTurn(vector<Player*>& players)
     while (m_turnHelper.easyFish(players) ||
            m_turnHelper.hardFish(players, m_deck))
     {
+        m_me.makeBooks();
         L_(linfo) << "Boom - go again player " << m_me.getName();
     }
 }

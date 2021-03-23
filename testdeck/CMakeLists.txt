@@ -34,7 +34,7 @@ target_link_libraries(GoFishUtilTest libgofish)
 
 add_executable(PlayerTest Player.test.cpp catch.hpp catch.cpp)
 add_test(NAME PlayerTest COMMAND PlayerTest )
-target_link_libraries(PlayerTest libdeck)
+target_link_libraries(PlayerTest libgofish)
 
 add_executable(StrategyHelperTest StrategyHelper.test.cpp catch.hpp catch.cpp)
 add_test(NAME StrategyHelperTest COMMAND StrategyHelperTest )
