@@ -27,7 +27,6 @@ TEST_CASE("easyFish-None")
     FORBID_CALL(mockMe, askPlayerForCards(_, _));
 
     testObject.easyFish(otherPlayers);
-
 }
 
 TEST_CASE("easyFish-Yes")
@@ -55,9 +54,7 @@ TEST_CASE("easyFish-Yes")
         .TIMES(1);
 
     testObject.easyFish(otherPlayers);
-
 }
-
 
 TEST_CASE("hardFish-NoPlayers")
 {
@@ -73,7 +70,6 @@ TEST_CASE("hardFish-NoPlayers")
     FORBID_CALL(mockStrategyHelper, getBaitCard(_));
 
     testObject.hardFish(otherPlayers, deck);
-
 }
 
 TEST_CASE("hardFish-Yes")
@@ -104,7 +100,6 @@ TEST_CASE("hardFish-Yes")
         .TIMES(1);
     cout << "**********************************";
     testObject.hardFish(otherPlayers, deck);
-
 }
 
 TEST_CASE("deckFish-Yes")
@@ -117,12 +112,7 @@ TEST_CASE("deckFish-Yes")
     vector<Player*> otherPlayers = {&mockOther};
     TurnHelper testObject(mockStrategyHelper, mockMe);
     optional<Player*> p = make_optional(&mockOther);
-//    vector<Card*> twoThrees = {
-//            new Card(3, Card::hearts),
-//            new Card(3, Card::diamonds)
-//    };
     vector<Card*> emptyCards;
-//    optional<vector<Card*>> optCards = nullopt;
     REQUIRE_CALL(mockStrategyHelper, getFishPlayer(otherPlayers)).TIMES(1).RETURN(p);
     REQUIRE_CALL(mockStrategyHelper, getBaitCard(&mockMe))
             .TIMES(1)
@@ -136,5 +126,4 @@ TEST_CASE("deckFish-Yes")
         .TIMES(1);
     cout << "**********************************";
     testObject.hardFish(otherPlayers, deck);
-
 }
