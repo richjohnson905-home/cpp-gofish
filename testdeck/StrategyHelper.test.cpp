@@ -65,6 +65,6 @@ TEST_CASE("StrategyHelperTest-getBaitCard") {
 
     int bait = testObject.getBaitCard(&me);
 
-    CHECK(bait >= 3);
-    CHECK(bait <= 4);
+    bool actual = bait >= 3 && bait <= 4;
+    CHECK(actual);
 }
