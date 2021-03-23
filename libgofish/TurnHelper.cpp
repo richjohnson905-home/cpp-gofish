@@ -24,6 +24,7 @@ bool TurnHelper::easyFish(std::vector<Player *> &players)
         {
             L_(ldebug1) << " LIKE FISHING IN A BARRELL " << optCards.value().size();
             acceptCards(optCards.value());
+            m_me.makeBooks();
             return true;
         }
         else
@@ -38,18 +39,22 @@ bool TurnHelper::hardFish(std::vector<Player *> &players, Deck& deck)
 {
     if( auto p = m_helper.getFishPlayer(players))
     {
-        L_(ldebug1) << "Fishing the hard way";
-        int bait = m_helper.getBaitCard(&m_me);
-        m_me.pushEasyFish(bait);
-        optional<pair<Player*, int>> optPlayerAndBait = make_pair(p.value(), bait);
-        vector<Card*> cards = askPlayer(optPlayerAndBait);
-        if (!cards.empty())
-        {
-            L_(ldebug1) << " Hard-won cards size: " << cards.size();
-            acceptCards(cards);
-            return true;
+        if (p.has_value()) {
+            L_(ldebug1) << "Fishing the hard way with: " << p.value()->getName();
+            int bait = m_helper.getBaitCard(&m_me);
+            m_me.pushEasyFish(bait);
+            optional<pair<Player *, int>> optPlayerAndBait = make_pair(p.value(), bait);
+            vector<Card *> cards = askPlayer(optPlayerAndBait);
+            if (!cards.empty()) {
+                L_(ldebug1) << " Hard-won cards size: " << cards.size();
+                acceptCards(cards);
+                m_me.makeBooks();
+                return true;
+            } else {
+                return deckFish(deck, bait);
+            }
         } else {
-            return deckFish(deck, bait);
+            L_(linfo) << "THERE ARE NO MORE PLAYERS";
         }
     }
     return false;
@@ -61,6 +66,7 @@ bool TurnHelper::deckFish(Deck& deck, int bait)
         Card* c = deck.dealCard();
         L_(ldebug1) << "\t" << m_me.getName() << " told to GO FISH. Deck card: " << c->getValue();
         m_me.pushHandCard(c);
+        m_me.makeBooks();
         return c->getValue() == bait;
     } else {
         L_(ldebug1) << m_me.getName() << " Deck empty!";

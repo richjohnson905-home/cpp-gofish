@@ -6,9 +6,11 @@
 
 #include <vector>
 
+#include <iostream>
+
 using namespace std;
 
-TEST_CASE("GoFishUtilTest", "RemovePlayer") {
+TEST_CASE("GoFishUtilTest-RemovePlayer") {
     Deck deck;
     Player p1("one", deck);
     p1.pushHandCard(deck.dealCard());
@@ -21,4 +23,23 @@ TEST_CASE("GoFishUtilTest", "RemovePlayer") {
     GoFishUtil testObject;
     vector<Player*> withoutP2 = testObject.removePlayer(players, &p2);
     CHECK(2 == withoutP2.size());
+}
+
+TEST_CASE("GoFishUtilTest-Random") {
+    GoFishUtil testObject;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+    cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
+
+    printf ("First number: %d\n", rand()%3);
+    srand (time(NULL));
+    printf ("Random number: %d\n", rand()%3);
+    srand (1);
+    printf ("Again the first number: %d\n", rand()%3);
+
 }

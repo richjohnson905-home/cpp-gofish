@@ -46,14 +46,19 @@ std::optional<Player*> StrategyHelper::getFishPlayer(std::vector<Player*>& playe
 // This strategy can be improved.  Best card to use as bait?  Not random
 int StrategyHelper::getBaitCard(Player* me) const {
     set<Card*, CardCompare> fishableCards = getPossibleBaitCards(me);
-    int randomFishCard = m_util.getRandomNumber(0, fishableCards.size());
-    auto first = fishableCards.begin(); // get iterator to 1st element
-    advance(first, randomFishCard); 
-    return (*first)->getValue();
+    if (fishableCards.size() > 1) {
+        int randomFishCard = m_util.getRandomNumber(0, fishableCards.size());
+        auto first = fishableCards.begin(); // get iterator to 1st element
+        advance(first, randomFishCard);
+        return (*first)->getValue();
+    } else {
+        return (*fishableCards.cbegin())->getValue();
+    }
+
 }
 
 set<Card*, CardCompare> StrategyHelper::getPossibleBaitCards(Player* me) const {
-    set<Card*, CardCompare> setOfCards; 
+    set<Card*, CardCompare> setOfCards;
     vector<Card*>::const_iterator it;
     for (it = me->getHand()->begin(); it != me->getHand()->end(); ++it) { 
         setOfCards.insert(*it); 

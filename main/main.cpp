@@ -18,9 +18,23 @@ int main(int argc, char *argv[]) {
     Player ai1("Eva", deck);
     Player ai2("Jarvis", deck);
     Player h("Rich", deck);
-    players.push_back(&ai1);
-    players.push_back(&ai2);
-    players.push_back(&h);
+
+    GoFishUtil util;
+    int order = util.getRandomNumber(0, 3);
+    std::cout << "ORDER: " << order << std::endl;
+    if (order == 0) {
+        players.push_back(&ai1);
+        players.push_back(&ai2);
+        players.push_back(&h);
+    } else if (order == 1) {
+        players.push_back(&ai2);
+        players.push_back(&h);
+        players.push_back(&ai1);
+    } else {
+        players.push_back(&h);
+        players.push_back(&ai1);
+        players.push_back(&ai2);
+    }
 
     StrategyHelper helper;
     TurnHelper turnHelper1(helper, ai1);
@@ -44,7 +58,7 @@ int main(int argc, char *argv[]) {
 
     GoFishGame g(players, 7, deck);
     g.deal();
-    
+
     for (int i = 0; i < 20; ++i) {
         g.playRound(i + 1);
         if (g.checkWinner(i + 1)) {

@@ -74,6 +74,7 @@ vector<Card*> Player::doYouHave(int bait) {
 }
 
 void Player::makeBooks() {
+
     map<int, int> frequency;
     for(Card* i: m_hand) {
         ++frequency[i->getValue()];
