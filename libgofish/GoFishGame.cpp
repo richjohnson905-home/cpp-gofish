@@ -19,30 +19,32 @@ void GoFishGame::playRound(int round) {
     cout << "==================== ROUND " << round << "====================" << endl;
     sortHands();
     showHands();
-    for (vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it) {
-        vector<Player*> playersMinusMe = m_util.removePlayer(m_players, *it);
-        (*it)->takeTurn(playersMinusMe);
+    for (auto & m_player : m_players) {
+        vector<Player*> playersMinusMe = m_util.removePlayer(m_players, m_player);
+        if (m_player->getHandSize()) {
+            m_player->takeTurn(playersMinusMe);
+        }
     }
     sortHands();
 }
 
 void GoFishGame::deal() {
     for (int i = 0; i < m_cardCount; ++i) {
-        for (vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it) {
-            (*it)->pushHand(m_deck.dealCard());
+        for (auto & m_player : m_players) {
+            m_player->pushHandCard(m_deck.dealCard());
         }
     }
 }
 
 void GoFishGame::showHands() {
-    for (vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it) {
-        (*it)->showHand();
+    for (auto & m_player : m_players) {
+        m_player->showHand();
         
-        vector<int> books = (*it)->getBooks();
+        vector<int> books = m_player->getBooks();
         cout << "\t\tBOOKS: ";
-        if (books.size()) {
-            for (auto i = books.begin(); i != books.end(); ++i) {
-                std::cout << *i << ' ';
+        if (!books.empty()) {
+            for (int & book : books) {
+                std::cout << book << ' ';
             }
             cout << endl;
         } else {
@@ -52,8 +54,8 @@ void GoFishGame::showHands() {
 }
 
 void GoFishGame::sortHands() {
-    for (vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it) {
-        (*it)->sortHand();
+    for (auto & m_player : m_players) {
+        m_player->sortHand();
     }
 }
 
@@ -78,8 +80,8 @@ Player* GoFishGame::winner() {
 }
 
 bool GoFishGame::allDone() {
-    for (vector<Player*>::iterator it = m_players.begin(); it != m_players.end(); ++it) {
-        if ((*it)->getHandSize() != 0) {
+    for (auto & m_player : m_players) {
+        if (m_player->getHandSize() != 0) {
             return false;
         }
     }

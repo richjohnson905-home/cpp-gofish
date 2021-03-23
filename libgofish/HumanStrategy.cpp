@@ -50,11 +50,11 @@ bool HumanStrategy::doTurnCompletion(vector<Card*> fishedCards, int bait) {
 }
 
 vector<Card*> HumanStrategy::goFishing(Player* other, int bait) {
-    vector<Card*> cards; 
+    vector<Card*> cards = m_me->askPlayerForCards(other, bait);
     // ask player
     // int randomPlayer = m_util.getRandomNumber(0, players.size());
     // Player* otherPlayer = players.at(randomPlayer);
-    if (!m_me->otherHasCards(other, cards, bait)) {
+    if (cards.size() == 0) {
         if (m_deck.getDeckSize() > 0) {
             L_(ldebug1) << "\t" << other->getName() << " told " << m_me->getName() << " to GO FISH!";
             cards.push_back(m_deck.dealCard());

@@ -1,5 +1,4 @@
 #include "GoFishUtil.h"
-#include "Card.h"
 #include "Player.h"
 
 #include <algorithm>
@@ -10,7 +9,7 @@ vector<Player*> GoFishUtil::removePlayer(const vector<Player*>& players, Player*
     vector<Player*> result;
     vector<Player*>::const_iterator iter;
     for (iter = players.begin(); iter != players.end(); ++iter) {
-        if (*iter != player && (*iter)->getHandSize() > 0) {
+        if (*iter != player) { //} && (*iter)->getHandSize() > 0) {
             result.push_back(*iter);
         }
     }

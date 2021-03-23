@@ -1,6 +1,6 @@
 
 #include "Deck.h"
-#include "Testdeck.h"
+#include "Deck.test.h"
 
 //using ::testing::Return;
 
@@ -18,18 +18,20 @@ void DeckTest::SetUp() {};
 void DeckTest::TearDown() {};
 
 
-TEST(DeckTest, DeckSize) {
+TEST_CASE("DeckSize") {
     Deck d;
-    EXPECT_EQ(52, d.getDeckSize());
+    CHECK(52 == d.getDeckSize());
 }
 
-TEST(DeckTest, deal) {
+TEST_CASE("deal") {
     Deck d;
     Card* c1 = d.dealCard();
-    EXPECT_TRUE(c1->getValue() > 1 && c1->getValue() < 15);
-    EXPECT_EQ(51, d.getDeckSize());
+    CHECK(c1->getValue() > 1);
+    CHECK(c1->getValue() < 15);
+    CHECK(51 == d.getDeckSize());
 
     Card* c2 = d.dealCard();
-    EXPECT_TRUE(c2->getValue() > 1 && c2->getValue() < 15);
-    EXPECT_EQ(50, d.getDeckSize());
+    CHECK(c2->getValue() > 1);
+    CHECK(c2->getValue() < 15);
+    CHECK(50 == d.getDeckSize());
 }

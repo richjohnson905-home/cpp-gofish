@@ -11,33 +11,6 @@
 
 class Player
 {
-public:
-    Player(std::string name, Deck& deck);
-    virtual ~Player() {}
-
-    virtual int getHandSize() const;
-    void showHand() const;
-    void sortHand();
-    void takeTurn(std::vector<Player*>& players);
-    void pushHand(Card* c);
-    void pushHand(std::vector<Card*> cards);
-    
-    void setStrategy(IStrategy* strategy);
-    std::string getName() {return m_name;}
-    virtual std::vector<Card*>* getHand() {return &m_hand;}
-    virtual void doYouHave(int bait, std::vector<Card*>& cards);
-    std::vector<int> getBooks() const {return m_books;}
-
-    virtual bool otherHasCards(Player* p, std::vector<Card*>& cards, int bait);
-    virtual void pushEasyFish(int fish);
-    void popEasyFish(int fish);
-    virtual bool hasEasyFish(int bait) const;
-    
-
-    // test public
-    void makeBooks();
-    std::vector<int> getEasyFish();
-    
 protected:
     std::vector<Card*> m_hand;
     std::string m_name;
@@ -47,6 +20,33 @@ protected:
     std::vector<int> m_easyFish;
 
     static bool customCompare(const Card *lhs, const Card *rhs);
+
+public:
+    Player(std::string name, Deck& deck);
+    virtual ~Player() {}
+
+    virtual int getHandSize() const;
+    void showHand() const;
+    void sortHand();
+    void takeTurn(std::vector<Player*>& players);
+    virtual void pushHandCard(Card* c);
+    virtual void pushHand(std::vector<Card*> cards);
+    
+    void setStrategy(IStrategy* strategy);
+    std::string getName() {return m_name;}
+    virtual const std::vector<Card*>* getHand() const {return &m_hand;}
+    virtual std::vector<Card*> doYouHave(int bait);
+    std::vector<int> getBooks() const {return m_books;}
+
+    virtual std::vector<Card*> askPlayerForCards(Player* p, int bait);
+    virtual void pushEasyFish(int fish);
+    void popEasyFish(int fish);
+    virtual bool hasEasyFish(int bait) const;
+
+    // test public
+    void makeBooks();
+    std::vector<int> getEasyFish();
+    
 };
  
 

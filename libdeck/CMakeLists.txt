@@ -3,7 +3,6 @@ message(STATUS "Building Deck lib")
 set(libdeck_SRCS
     Card.cpp
     Deck.cpp
-    Player.cpp
 )
 
 # Declare the library

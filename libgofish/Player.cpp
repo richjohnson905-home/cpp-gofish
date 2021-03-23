@@ -1,9 +1,9 @@
 #include "Player.h"
 #include "Log.h"
 
-#include <time.h>
 #include <iostream>
 #include <map>
+#include <utility>
 
 using namespace std;
 
@@ -12,7 +12,7 @@ bool Player::customCompare(const Card* lhs, const Card* rhs) {
     return lhs->getValue() < rhs->getValue(); 
 }
 
-Player::Player(string name, Deck& deck):m_name(name), m_deck(deck){
+Player::Player(string name, Deck& deck):m_name(move(name)), m_deck(deck), m_strategy(nullptr){
 
 }
 
@@ -20,7 +20,7 @@ int Player::getHandSize() const {
     return m_hand.size();
 }
 
-void Player::pushHand(Card* c) {
+void Player::pushHandCard(Card* c) {
     m_hand.push_back(c);
 }
 
@@ -30,8 +30,8 @@ void Player::pushHand(vector<Card*> cards) {
 
 void Player::showHand() const {
     cout << m_name << "'s Hand contains: " << m_hand.size() << endl;
-    for (vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
-        cout << ' ' << (*it)->show() << endl;
+    for (auto it : m_hand) {
+        cout << ' ' << it->show() << endl;
     }
 }
 
@@ -41,35 +41,36 @@ void Player::sortHand() {
 
 void Player::takeTurn(vector<Player*>& players) {
     m_strategy->takeTurn(players);
-    makeBooks();
 }
 
 void Player::setStrategy(IStrategy* strategy) {
     m_strategy = strategy;
 }
 
-bool Player::otherHasCards(Player* p, vector<Card*>& cards, int fish) {
-    p->doYouHave(fish, cards);
-    return cards.size() > 0;
+vector<Card*> Player::askPlayerForCards(Player* p, int bait) {
+    return p->doYouHave(bait);
 }
 
-void Player::doYouHave(int bait, vector<Card*>& cards) {
+vector<Card*> Player::doYouHave(int bait) {
     std::stringstream ss;
-    for(vector<Card*>::const_iterator it = m_hand.begin(); it != m_hand.end(); ++it) {
+    for(auto it = m_hand.begin(); it != m_hand.end(); ++it) {
         ss << (*it)->getValue() << " ";
     }
     L_(ldebug1) << "\t" << m_name << " being asked for " << bait << " from my " << ss.str();
     
     popEasyFish(bait);
-    vector<Card*>::iterator it = m_hand.begin();
+
+    vector<Card*> returnCards;
+    auto it = m_hand.begin();
     while (it != m_hand.end()) {
         if ((*it)->getValue() == bait) {
-            cards.push_back(*it);
+            returnCards.push_back(*it);
             it = m_hand.erase(it);
         } else {
             ++it;
         }
     }
+    return returnCards;
 }
 
 void Player::makeBooks() {

@@ -4,6 +4,7 @@
 #include "IStrategy.h"
 #include "Deck.h"
 #include "CardCompare.h"
+#include "TurnHelper.h"
 
 #include <vector>
 #include <set>
@@ -12,18 +13,17 @@ class Player;
 class StrategyHelper;
 
 class Strategy : public IStrategy {
-public:
-    virtual ~Strategy() {}
-    Strategy(StrategyHelper& helper, Player& myPlayer, Deck& deck);
-
-    void takeTurn(std::vector<Player*>& players);
- private:
+private:
     Player& m_me;
     Deck& m_deck;
-    StrategyHelper& m_helper;
+    TurnHelper& m_turnHelper;
 
-    bool doTakeTurn(std::vector<Player*>& players);
-    bool doTurnCompletion(std::vector<Card*> cards, int fish); 
+public:
+    virtual ~Strategy() {}
+    Strategy(TurnHelper& turnHelper, Player& myPlayer, Deck& deck);
+
+    void takeTurn(std::vector<Player*>& players);
+
  };
 
 #endif
