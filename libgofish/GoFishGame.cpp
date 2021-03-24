@@ -7,18 +7,25 @@
 
 using namespace std;
 
-GoFishGame::GoFishGame(vector<Player*>& playerVec, int cardCount, Deck& deck):
+GoFishGame::GoFishGame(vector<Player*>& playerVec, int cardCount, Deck& deck, MvcController& controller):
     m_players(playerVec), 
     m_cardCount(cardCount),
-    m_deck(deck) {
+    m_deck(deck),
+    m_util(true),
+    m_mvcController(controller){
 
 }
 
 void GoFishGame::playRound(int round) {
     L_(linfo) << "ROUND " << round;
-    cout << "==================== ROUND " << round << "====================" << endl;
+    m_mvcController.setRound(round);
     sortHands();
-    showHands();
+    showHands(m_mvcController);
+    m_mvcController.updateView(cout);
+    doPlayRound();
+}
+
+void GoFishGame::doPlayRound() {
     for (auto & m_player : m_players) {
         vector<Player*> playersMinusMe = m_util.removePlayer(m_players, m_player);
         if (m_player->getHandSize()) {
@@ -36,21 +43,13 @@ void GoFishGame::deal() {
     }
 }
 
-void GoFishGame::showHands() {
-    for (auto & m_player : m_players) {
-        m_player->showHand();
-        
-        vector<int> books = m_player->getBooks();
-        cout << "\t\tBOOKS: ";
-        if (!books.empty()) {
-            for (int & book : books) {
-                std::cout << book << ' ';
-            }
-            cout << endl;
-        } else {
-            cout << "None" << endl;
-        }
-    }
+void GoFishGame::showHands(MvcController& controller) {
+    controller.setHand1(m_players.at(0)->getHand());
+    controller.setHand2(m_players.at(1)->getHand());
+    controller.setHand3(m_players.at(2)->getHand());
+    controller.setBook1(m_players.at(0)->getBooks());
+    controller.setBook2(m_players.at(1)->getBooks());
+    controller.setBook3(m_players.at(2)->getBooks());
 }
 
 void GoFishGame::sortHands() {
@@ -62,7 +61,10 @@ void GoFishGame::sortHands() {
 bool GoFishGame::checkWinner(int round) {
     if (allDone()) {
         Player* w = winner();
-        cout << "\n\nWE HAVE A ROUND " << round << " WINNER: " << w->getName() << endl;
+        sortHands();
+        showHands(m_mvcController);
+        m_mvcController.setWinner(w->getName());
+        m_mvcController.updateView(cout);
         return true;
     }
     return false;

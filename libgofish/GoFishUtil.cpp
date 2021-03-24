@@ -2,8 +2,15 @@
 #include "Player.h"
 
 #include <algorithm>
+#include <iostream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
+
+GoFishUtil::GoFishUtil(bool verbose):m_verbose(verbose) {
+
+}
 
 vector<Player*> GoFishUtil::removePlayer(const vector<Player*>& players, Player* player) {
     vector<Player*> result;
@@ -16,16 +23,27 @@ vector<Player*> GoFishUtil::removePlayer(const vector<Player*>& players, Player*
     return result;
 }
 
-
 int GoFishUtil::getRandomNumber(int min, int max) const
 {
     srand (time(NULL));
     int myRandomNumber = rand() % max;
-//    printf ("Random number: %d\n", rand()%max);
     return myRandomNumber;
+}
 
-//    // static used for efficiency, so we only calculate this value once
-//    static constexpr double fraction { 1.0 / (RAND_MAX + 1.0) };
-//    // evenly distribute the random number across our range
-//    return min + static_cast<int>(((max - 1) - min + 1) * (std::rand() * fraction));
+void GoFishUtil::printMsg(const string& msg) {
+    if (m_verbose) {
+        int x = 0;
+        while (msg[x] != '\0') {
+            cout << msg[x] << std::flush;
+            std::this_thread::sleep_for(std::chrono::milliseconds(50));
+            x++;
+        };
+    } else {
+        cout << msg;
+    }
+}
+
+void GoFishUtil::printMsgEnd(const std::string &msg) {
+    printMsg(msg);
+    printMsg("\n");
 }

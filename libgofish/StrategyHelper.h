@@ -17,9 +17,10 @@ class StrategyHelper {
 private:
     GoFishUtil m_util;
 
-    static int getChoice(int maxInput) ;
+    static int getChoice(int maxInput);
 
 public:
+    StrategyHelper();
     virtual std::optional<std::pair<Player*, int>> goEasyFishing(Player* me, std::vector<Player*>& players);
     virtual std::optional<Player*> getFishPlayer(std::vector<Player*>& players) const;
     virtual int getBaitCard(Player* me) const;

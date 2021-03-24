@@ -20,13 +20,13 @@ TEST_CASE("GoFishUtilTest-RemovePlayer") {
     p3.pushHandCard(deck.dealCard());
     vector<Player*> players = {&p1, &p2, &p3};
 
-    GoFishUtil testObject;
+    GoFishUtil testObject(false);
     vector<Player*> withoutP2 = testObject.removePlayer(players, &p2);
     CHECK(2 == withoutP2.size());
 }
 
 TEST_CASE("GoFishUtilTest-Random") {
-    GoFishUtil testObject;
+    GoFishUtil testObject(false);
     cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
     cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
     cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;

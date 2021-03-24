@@ -8,6 +8,10 @@
 
 using namespace std;
 
+StrategyHelper::StrategyHelper():m_util(false) {
+
+}
+
 optional<pair<Player*, int>> StrategyHelper::goEasyFishing(Player* me, std::vector<Player*>& players) {
     vector<Card*>::const_iterator cit;
     for(auto & player : players) {
