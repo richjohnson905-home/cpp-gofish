@@ -1,26 +1,38 @@
 #include "catch.hpp"
 
 #include "../libgofish/Player.h"
-#include "Card.h"
 #include "Deck.h"
+#include "MockMvcController.h"
+#include "Player.test.h"
 
 using namespace std;
 
-TEST_CASE("PlayerTest", "PushCards") {
-    Deck d;
-    Player p1("dummy1", d);
+PlayerTest::PlayerTest()
+{
+
+}
+
+PlayerTest::~PlayerTest() {};
+
+void PlayerTest::SetUp() {};
+
+void PlayerTest::TearDown() {};
+
+TEST_CASE_METHOD(PlayerTest, "PushCards") {
     
-    p1.pushHandCard(d.dealCard());
-    p1.pushHandCard(d.dealCard());
-    p1.pushHandCard(d.dealCard());
-    p1.pushHandCard(d.dealCard());
-    p1.pushHandCard(d.dealCard());
+    Player p1("dummy1", m_deck, &m_mockController);
+    
+    p1.pushHandCard(m_deck.dealCard());
+    p1.pushHandCard(m_deck.dealCard());
+    p1.pushHandCard(m_deck.dealCard());
+    p1.pushHandCard(m_deck.dealCard());
+    p1.pushHandCard(m_deck.dealCard());
     CHECK(5 == p1.getHandSize());
 }
 
-TEST_CASE("PushHand") {
+TEST_CASE_METHOD(PlayerTest, "PushHand") {
     Deck d;
-    Player p1("dummy1", d);
+    Player p1("dummy1", m_deck, &m_mockController);
     
     Card c1(2, Card::hearts);
     Card c2(9, Card::diamonds);
@@ -42,9 +54,8 @@ TEST_CASE("PushHand") {
     CHECK(10 == p1.getHand()->at(4)->getValue());
 }
 
-TEST_CASE("DoYouHaveTwos") {
-    Deck d;
-    Player testObject("dummy", d);
+TEST_CASE_METHOD(PlayerTest, "DoYouHaveTwos") {
+    Player testObject("testObject", m_deck, &m_mockController);
 
     Card c1(2, Card::hearts);
     Card c2(9, Card::diamonds);
@@ -66,9 +77,8 @@ TEST_CASE("DoYouHaveTwos") {
     CHECK(4 == testObject.getHandSize());
 }
 
-TEST_CASE("MakeMove_AsksOthersForCardsOnce") {
-    Deck d;
-    Player testObject("testObject", d);
+TEST_CASE_METHOD(PlayerTest, "MakeMove_AsksOthersForCardsOnce") {
+    Player testObject("testObject", m_deck, &m_mockController);
     Card c1(2, Card::hearts);
     Card c2(9, Card::diamonds);
     Card c3(3, Card::spades);
@@ -79,7 +89,7 @@ TEST_CASE("MakeMove_AsksOthersForCardsOnce") {
     testObject.pushHandCard(&c3);
     testObject.pushHandCard(&c4);
     testObject.pushHandCard(&c5);
-    Player p1("dummy2", d);
+    Player p1("dummy2", m_deck, &m_mockController);
     Card c6(2, Card::diamonds);
     Card c7(4, Card::spades);
     p1.pushHandCard(&c6);
@@ -91,9 +101,8 @@ TEST_CASE("MakeMove_AsksOthersForCardsOnce") {
     CHECK(1 == p1.getHandSize());
 }
 
-TEST_CASE("MakeBooks") {
-    Deck d;
-    Player testObject("testObject", d);
+TEST_CASE_METHOD(PlayerTest, "MakeBooks") {
+    Player testObject("testObject", m_deck, &m_mockController);
     testObject.pushEasyFish(4);
     Card c1(2, Card::hearts);
     Card c2(4, Card::diamonds);
@@ -111,9 +120,8 @@ TEST_CASE("MakeBooks") {
     CHECK_FALSE(testObject.hasEasyFish(4));
 }
 
-TEST_CASE("easyFish") {
-    Deck d;
-    Player testObject("testObject", d);
+TEST_CASE_METHOD(PlayerTest, "easyFish") {
+    Player testObject("testObject", m_deck, &m_mockController);
     testObject.pushEasyFish(6);
     testObject.pushEasyFish(9);
     CHECK(2 == testObject.getEasyFish().size());

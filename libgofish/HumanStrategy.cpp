@@ -1,22 +1,24 @@
 #include "HumanStrategy.h"
 #include "Log.h"
+#include "Player.h"
+#include "StrategyHelper.h"
 
 #include <iostream>
 
 using namespace std;
 
-HumanStrategy::HumanStrategy(Player* myPlayer, Deck& deck, StrategyHelper& helper)
+HumanStrategy::HumanStrategy(IPlayer* myPlayer, Deck& deck, IStrategyHelper& helper)
 :m_me(myPlayer), m_helper(helper), m_deck(deck) {
 
 }
 
-void HumanStrategy::takeTurn(vector<Player*>& players) {
+void HumanStrategy::takeTurn(vector<IPlayer*>& players) {
     L_(ldebug1) << m_me->getName() << " making first move";
     while (doTakeTurn(players)) {
         L_(ldebug1) << m_me->getName() << " making another move";
     }
 }
-bool HumanStrategy::doTakeTurn(vector<Player*>& players) {
+bool HumanStrategy::doTakeTurn(vector<IPlayer*>& players) {
     int choice = m_helper.getHumansPlayerChoice(players);
     L_(ldebug1) << "Human chose: " << players.at(choice - 1)->getName();
     int baitChoice = m_helper.getHumansBaitChoice(m_me);
@@ -49,7 +51,7 @@ bool HumanStrategy::doTurnCompletion(vector<Card*> fishedCards, int bait) {
     }    
 }
 
-vector<Card*> HumanStrategy::goFishing(Player* other, int bait) {
+vector<Card*> HumanStrategy::goFishing(IPlayer* other, int bait) {
     vector<Card*> cards = m_me->askPlayerForCards(other, bait);
     // ask player
     // int randomPlayer = m_util.getRandomNumber(0, players.size());

@@ -1,7 +1,6 @@
 #ifndef GOFISH_STRATEGEY_H
 #define GOFISH_STRATEGEY_H
 
-#include "IStrategy.h"
 #include "Deck.h"
 #include "CardCompare.h"
 #include "TurnHelper.h"
@@ -9,20 +8,24 @@
 #include <vector>
 #include <set>
 
-class Player;
-class StrategyHelper;
+class IPlayer;
+
+class IStrategy {
+public:
+    virtual void takeTurn(std::vector<IPlayer*>& players) = 0;
+};
 
 class Strategy : public IStrategy {
 private:
-    Player& m_me;
+    IPlayer& m_me;
     Deck& m_deck;
-    TurnHelper& m_turnHelper;
+    ITurnHelper& m_turnHelper;
 
 public:
     virtual ~Strategy() {}
-    Strategy(TurnHelper& turnHelper, Player& myPlayer, Deck& deck);
+    Strategy(ITurnHelper& turnHelper, IPlayer& myPlayer, Deck& deck);
 
-    void takeTurn(std::vector<Player*>& players);
+    virtual void takeTurn(std::vector<IPlayer*>& players);
 
  };
 

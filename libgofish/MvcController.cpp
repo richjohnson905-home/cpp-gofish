@@ -14,6 +14,10 @@ void MvcController::updateView(ostream& out) {
     m_view.render(out);
 }
 
+void MvcController::updatePlayAction(std::ostream &out) {
+    m_view.bannerMsg(out);
+}
+
 void MvcController::setRound(int round) {
     m_model.setRound(round);
 }
@@ -43,4 +47,7 @@ void MvcController::setNames(string name1, string name2, string name3){
 }
 void MvcController::setWinner(string winner) {
     m_model.setWinner(winner);
+}
+void MvcController::setPlayAction(std::string action) {
+    m_model.setPlayAction(action);
 }

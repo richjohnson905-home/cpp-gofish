@@ -1,23 +1,20 @@
-#include "Card.h"
-#include "Deck.h"
-#include "Strategy.h"
-#include "MockStrategyHelper.h"
-#include "MockPlayer.h"
+//
+// Created by Richard Johnson on 3/25/21.
+//
 
-#include "trompeloeil.hpp"
-#include "MockTurnHelper.h"
-#include "MockMvcController.h"
+#ifndef GOFISH_PLAYER_TEST_H
+#define GOFISH_PLAYER_TEST_H
 
 // The fixture for testing class Foo.
-class StrategyTest {
+class PlayerTest {
 
 protected:
 
     // You can do set-up work for each test here.
-    StrategyTest();
+    PlayerTest();
 
     // You can do clean-up work that doesn't throw exceptions here.
-    virtual ~StrategyTest();
+    virtual ~PlayerTest();
 
     // If the constructor and destructor are not enough for setting up
     // and cleaning up each test, you can define the following methods:
@@ -32,8 +29,11 @@ protected:
 
     // The mock bar library shared by all tests
     MockMvcController m_mockController;
-    MockPlayer m_me;
-    MockPlayer m_otherPlayer;
-    std::vector<IPlayer*> m_otherPlayers;
+//    MockPlayer m_me;
+//    MockPlayer m_otherPlayer;
+//    MockTurnHelper m_turnHelper;
+//    std::vector<Player*> m_otherPlayers;
     Deck m_deck;
+//    Strategy m_testObject;
 };
+#endif //GOFISH_PLAYER_TEST_H

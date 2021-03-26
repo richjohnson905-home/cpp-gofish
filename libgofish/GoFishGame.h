@@ -11,17 +11,17 @@
 class GoFishGame {
 private:
     GoFishUtil m_util;
-    std::vector<Player*>& m_players;
+    std::vector<IPlayer*>& m_players;
     Deck& m_deck;
     int m_cardCount;
-    MvcController m_mvcController;
+    MvcController& m_mvcController;
 
-    Player* winner();
+    IPlayer* winner();
     bool allDone();
     void doPlayRound();
 
 public:
-    GoFishGame(std::vector<Player*>& playerVec, int cardCount, Deck& deck, MvcController& controller);
+    GoFishGame(std::vector<IPlayer*>& playerVec, int cardCount, Deck& deck, MvcController& controller);
     void deal();
     void sortHands();
     void playRound(int round);

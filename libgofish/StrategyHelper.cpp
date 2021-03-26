@@ -8,11 +8,7 @@
 
 using namespace std;
 
-StrategyHelper::StrategyHelper():m_util(false) {
-
-}
-
-optional<pair<Player*, int>> StrategyHelper::goEasyFishing(Player* me, std::vector<Player*>& players) {
+optional<pair<IPlayer*, int>> StrategyHelper::goEasyFishing(IPlayer* me, std::vector<IPlayer*>& players) {
     vector<Card*>::const_iterator cit;
     for(auto & player : players) {
         for (cit = me->getHand()->begin(); cit != me->getHand()->end(); ++cit) {
@@ -25,8 +21,8 @@ optional<pair<Player*, int>> StrategyHelper::goEasyFishing(Player* me, std::vect
     return nullopt;
 }
 
-std::optional<Player*> StrategyHelper::getFishPlayer(std::vector<Player*>& players) const {
-    vector<Player*> playersWithCards;
+std::optional<IPlayer*> StrategyHelper::getFishPlayer(std::vector<IPlayer*>& players) const {
+    vector<IPlayer*> playersWithCards;
     playersWithCards.reserve(players.size());
     for (auto & player : players) {
         if (!player->getHand()->empty()) {
@@ -42,13 +38,13 @@ std::optional<Player*> StrategyHelper::getFishPlayer(std::vector<Player*>& playe
     } else {
         L_(ldebug1) << "MULTIPLE PLAYERS REMAIN";
         int randomPlayer = m_util.getRandomNumber(0, players.size());
-        return optional<Player*>(players.at(randomPlayer));
+        return optional<IPlayer*>(players.at(randomPlayer));
     }
 
 }
 
 // This strategy can be improved.  Best card to use as bait?  Not random
-int StrategyHelper::getBaitCard(Player* me) const {
+int StrategyHelper::getBaitCard(IPlayer* me) const {
     set<Card*, CardCompare> fishableCards = getPossibleBaitCards(me);
     if (fishableCards.size() > 1) {
         int randomFishCard = m_util.getRandomNumber(0, fishableCards.size());
@@ -61,7 +57,7 @@ int StrategyHelper::getBaitCard(Player* me) const {
 
 }
 
-set<Card*, CardCompare> StrategyHelper::getPossibleBaitCards(Player* me) const {
+set<Card*, CardCompare> StrategyHelper::getPossibleBaitCards(IPlayer* me) const {
     set<Card*, CardCompare> setOfCards;
     vector<Card*>::const_iterator it;
     for (it = me->getHand()->begin(); it != me->getHand()->end(); ++it) { 
@@ -70,7 +66,7 @@ set<Card*, CardCompare> StrategyHelper::getPossibleBaitCards(Player* me) const {
     return setOfCards;
 }
 
-int StrategyHelper::getHumansPlayerChoice(vector<Player*>& players) const {
+int StrategyHelper::getHumansPlayerChoice(vector<IPlayer*>& players) const {
     int i = 1;
     cout << "Select player to fish:" << endl;
     for (auto & player : players) {
@@ -80,7 +76,7 @@ int StrategyHelper::getHumansPlayerChoice(vector<Player*>& players) const {
     return choice;
 }
 
-int StrategyHelper::getHumansBaitChoice(Player* me) const {
+int StrategyHelper::getHumansBaitChoice(IPlayer* me) const {
     int i = 1;
     cout << "Select card to fish:" << endl;
     Card* c;

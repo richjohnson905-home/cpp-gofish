@@ -6,7 +6,7 @@
 
 using namespace std;
 
-Strategy::Strategy(TurnHelper& turnHelper, Player& myPlayer, Deck& deck)
+Strategy::Strategy(ITurnHelper& turnHelper, IPlayer& myPlayer, Deck& deck)
 :m_me(myPlayer),
 m_turnHelper(turnHelper),
 m_deck(deck)
@@ -14,7 +14,7 @@ m_deck(deck)
 
 }
 
-void Strategy::takeTurn(vector<Player*>& players)
+void Strategy::takeTurn(vector<IPlayer*>& players)
 {
     L_(linfo) << m_me.getName() << " Move Start";
     while (m_turnHelper.easyFish(players) ||

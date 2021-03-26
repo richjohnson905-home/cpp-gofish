@@ -1,19 +1,18 @@
 #include <iostream>
 #include <vector>
 #include <MvcGameView.h>
-#include <MvcController.h>
+#include "MvcController.h"
 
 #include "GoFishGame.h"
 #include "Player.h"
 #include "Strategy.h"
 #include "StrategyHelper.h"
 #include "TurnHelper.h"
-#include "HumanStrategy.h"
 #include "Log.h"
 
 int main(int argc, char *argv[]) {
     initLogger( "mylogfile.log", ldebug1);
-    GoFishUtil util(true);
+    GoFishUtil util;
     //util.printMsgEnd("GoFish Game time");
 
     //util.printMsgEnd("Players: Eva, Jarvis and Rich");
@@ -22,10 +21,10 @@ int main(int argc, char *argv[]) {
     MvcController controller(view, model);
 
     Deck deck;
-    std::vector<Player*> players;
-    Player ai1("Eva", deck);
-    Player ai2("Jarvis", deck);
-    Player h("Rich", deck);
+    std::vector<IPlayer*> players;
+    Player ai1("Eva", deck, &controller);
+    Player ai2("Jarvis", deck, &controller);
+    Player h("Rich", deck, &controller);
 
     int order = util.getRandomNumber(0, 3);
     if (order == 0) {
@@ -52,8 +51,8 @@ int main(int argc, char *argv[]) {
     Strategy goFishStrategyAi1(turnHelper1, ai1, deck);
     Strategy goFishStrategyAi2(turnHelper2, ai2, deck);
     if (argc > 1) {
-        HumanStrategy humanStrategy(&h, deck, helper);
-        h.setStrategy(&humanStrategy);
+//        HumanStrategy humanStrategy(&h, deck, helper);
+//        h.setStrategy(&humanStrategy);
     } else {
         Strategy goFishStrategyAi3(turnHelperH, h, deck);
         h.setStrategy(&goFishStrategyAi3);

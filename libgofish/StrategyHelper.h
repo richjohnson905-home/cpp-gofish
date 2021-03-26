@@ -10,23 +10,32 @@
 #include <functional>
 
 class Card;
-class Player;
+class IPlayer;
 class Deck;
 
-class StrategyHelper {
+class IStrategyHelper {
+public:
+    virtual std::optional<std::pair<IPlayer*, int>> goEasyFishing(IPlayer* me, std::vector<IPlayer*>& players) = 0;
+    virtual std::optional<IPlayer*> getFishPlayer(std::vector<IPlayer*>& players) const = 0;
+    virtual int getBaitCard(IPlayer* me) const = 0;
+    virtual std::set<Card*, CardCompare> getPossibleBaitCards(IPlayer* me) const = 0;
+    virtual int getHumansPlayerChoice(std::vector<IPlayer*>& players) const = 0;
+    virtual int getHumansBaitChoice(IPlayer* me) const = 0;
+};
+
+class StrategyHelper : public IStrategyHelper {
 private:
     GoFishUtil m_util;
 
     static int getChoice(int maxInput);
 
 public:
-    StrategyHelper();
-    virtual std::optional<std::pair<Player*, int>> goEasyFishing(Player* me, std::vector<Player*>& players);
-    virtual std::optional<Player*> getFishPlayer(std::vector<Player*>& players) const;
-    virtual int getBaitCard(Player* me) const;
-    virtual std::set<Card*, CardCompare> getPossibleBaitCards(Player* me) const;
-    virtual int getHumansPlayerChoice(std::vector<Player*>& players) const;
-    virtual int getHumansBaitChoice(Player* me) const;
+    std::optional<std::pair<IPlayer*, int>> goEasyFishing(IPlayer* me, std::vector<IPlayer*>& players) override;
+    std::optional<IPlayer*> getFishPlayer(std::vector<IPlayer*>& players) const override;
+    int getBaitCard(IPlayer* me) const override;
+    std::set<Card*, CardCompare> getPossibleBaitCards(IPlayer* me) const override;
+    int getHumansPlayerChoice(std::vector<IPlayer*>& players) const override;
+    int getHumansBaitChoice(IPlayer* me) const override;
 };
 
 #endif

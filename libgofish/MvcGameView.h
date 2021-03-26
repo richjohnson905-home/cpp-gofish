@@ -16,6 +16,7 @@ private:
 
     const int PRECISION = 25;
     const int ROW_COUNT = 20;
+    const bool m_slow = true;
 
     void renderHeader(std::ostream& out);
     void renderTable(std::ostream& out);
@@ -29,6 +30,7 @@ public:
 
     MvcGameView(MvcModel& model);
     void render(std::ostream& out);
+    void bannerMsg(std::ostream& out);
 };
 
 

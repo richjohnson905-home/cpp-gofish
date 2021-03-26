@@ -7,12 +7,11 @@
 
 #include "TurnHelper.h"
 
-class MockTurnHelper : public TurnHelper
+class MockTurnHelper : public ITurnHelper
 {
 public:
-    MockTurnHelper(StrategyHelper& helper, Player& me):TurnHelper(helper, me){}
-    MAKE_MOCK1(easyFish, bool(std::vector<Player*>&), override);
-    MAKE_MOCK2(hardFish, bool(std::vector<Player*>&, Deck&), override);
+    MAKE_MOCK1(easyFish, bool(std::vector<IPlayer*>&), override);
+    MAKE_MOCK2(hardFish, bool(std::vector<IPlayer*>&, Deck&), override);
 };
 
 #endif //GOFISH_MOCKTURNHELPER_H

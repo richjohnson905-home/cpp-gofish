@@ -95,3 +95,6 @@ std::vector<std::optional<int>> MvcModel::getPlayer3Books() const {
 void MvcModel::setWinner(std::string winner) {
     m_winner = winner;
 }
+void MvcModel::setPlayAction(std::string action) {
+    m_playAction = action;
+}

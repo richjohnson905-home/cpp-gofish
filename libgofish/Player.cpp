@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Log.h"
+#include "Strategy.h"
 
 #include <iostream>
 #include <map>
@@ -12,7 +13,11 @@ bool Player::customCompare(const Card* lhs, const Card* rhs) {
     return lhs->getValue() < rhs->getValue(); 
 }
 
-Player::Player(string name, Deck& deck):m_name(move(name)), m_deck(deck), m_strategy(nullptr){
+Player::Player(string name, Deck& deck, IMvcController* controller)
+:m_name(move(name)),
+m_deck(deck),
+ m_pStrategy(nullptr),
+m_pController(controller){
 
 }
 
@@ -39,20 +44,20 @@ void Player::sortHand() {
     sort(m_hand.begin(), m_hand.end(), customCompare);
 }
 
-void Player::takeTurn(vector<Player*>& players) {
-    m_strategy->takeTurn(players);
+void Player::takeTurn(vector<IPlayer*>& players) {
+    m_pStrategy->takeTurn(players);
 }
 
 void Player::setStrategy(IStrategy* strategy) {
-    m_strategy = strategy;
+    m_pStrategy = strategy;
 }
 
-vector<Card*> Player::askPlayerForCards(Player* p, int bait) {
+vector<Card*> Player::askPlayerForCards(IPlayer* p, int bait) {
     return p->doYouHave(bait);
 }
 
 vector<Card*> Player::doYouHave(int bait) {
-    std::stringstream ss;
+    stringstream ss;
     for(auto it = m_hand.begin(); it != m_hand.end(); ++it) {
         ss << (*it)->getValue() << " ";
     }

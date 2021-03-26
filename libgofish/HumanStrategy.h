@@ -1,27 +1,28 @@
 #ifndef GOFISH_HUMANSTRATEGEY_H
 #define GOFISH_HUMANSTRATEGEY_H
 
-#include "IStrategy.h"
+#include "Strategy.h"
 #include "Deck.h"
-#include "Player.h"
-#include "StrategyHelper.h"
 
 #include <vector>
 
+class IPlayer;
+class IStrategyHelper;
+
 class HumanStrategy : public IStrategy {
 public:
-    HumanStrategy(Player* myPlayer, Deck& deck, StrategyHelper& helper);
+    HumanStrategy(IPlayer* myPlayer, Deck& deck, IStrategyHelper& helper);
 
-    void takeTurn(std::vector<Player*>& players);
-    bool doTakeTurn(std::vector<Player*>& players);
+    void takeTurn(std::vector<IPlayer*>& players);
+    bool doTakeTurn(std::vector<IPlayer*>& players);
 
 private:
-    Player* m_me;
-    StrategyHelper& m_helper;
+    IPlayer* m_me;
+    IStrategyHelper& m_helper;
     Deck& m_deck;
 
     bool doTurnCompletion(std::vector<Card*> fishedCards, int bait);
-    std::vector<Card*> goFishing(Player* other, int bait);
+    std::vector<Card*> goFishing(IPlayer* other, int bait);
 };
 
 #endif

@@ -16,7 +16,7 @@ add_executable(DeckTest Deck.test.cpp catch.hpp catch.cpp)
 add_test(NAME DeckTest COMMAND DeckTest)
 target_link_libraries(DeckTest libdeck)
 
-add_executable(CardTest Card.test.cpp catch.hpp catch.cpp)
+add_executable(CardTest Card.test.cpp catch.hpp catch.cpp Player.test.h)
 add_test(NAME CardTest COMMAND CardTest)
 target_link_libraries(CardTest libdeck)
 
@@ -32,7 +32,7 @@ add_executable(GoFishUtilTest GoFishUtil.test.cpp catch.hpp catch.cpp)
 add_test(NAME GoFishUtilTest COMMAND GoFishUtilTest )
 target_link_libraries(GoFishUtilTest libgofish)
 
-add_executable(PlayerTest Player.test.cpp catch.hpp catch.cpp)
+add_executable(PlayerTest Player.test.cpp catch.hpp catch.cpp MockMvcController.h)
 add_test(NAME PlayerTest COMMAND PlayerTest )
 target_link_libraries(PlayerTest libgofish)
 

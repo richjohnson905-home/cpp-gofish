@@ -2,17 +2,19 @@
 
 #include "StrategyHelper.h"
 #include "MockPlayer.h"
+#include "MockMvcController.h"
 
 using namespace std;
 using trompeloeil::_;
 
 TEST_CASE("GoEasyFishing-No-Returns-NullOpt") {
+    MockMvcController m_mockController;
     Deck deck;
     StrategyHelper testObject;
-    MockPlayer me("TestMe", deck);
-    MockPlayer other1("Other1", deck);
-    MockPlayer other2("Other2", deck);
-    vector<Player*> otherPlayers = {&other1, &other2};
+    MockPlayer me;
+    MockPlayer other1;
+    MockPlayer other2;
+    vector<IPlayer*> otherPlayers = {&other1, &other2};
     vector<Card*> myCards = {
             new Card(3, Card::hearts),
             new Card(4, Card::diamonds)
@@ -22,38 +24,43 @@ TEST_CASE("GoEasyFishing-No-Returns-NullOpt") {
     ALLOW_CALL(other1, hasEasyFish(4)).RETURN(false);
     ALLOW_CALL(other2, hasEasyFish(_)).RETURN(false);
 
-    optional<pair<Player*, int>> actual = testObject.goEasyFishing(&me, otherPlayers);
+    optional<pair<IPlayer*, int>> actual = testObject.goEasyFishing(&me, otherPlayers);
 
     CHECK_FALSE(actual.has_value());
 }
 
 TEST_CASE("GoEasyFishing-Yes-ReturnsPlayerAndBait") {
+    MockMvcController m_mockController;
     Deck deck;
     StrategyHelper testObject;
-    MockPlayer me("TestMe", deck);
-    MockPlayer other1("Other1", deck);
-    MockPlayer other2("Other2", deck);
-    vector<Player*> otherPlayers = {&other1, &other2};
+    MockPlayer me;
+    MockPlayer other1;
+    MockPlayer other2;
+    vector<IPlayer*> otherPlayers = {&other1, &other2};
     vector<Card*> myCards = {
         new Card(3, Card::hearts),
         new Card(4, Card::diamonds)
     };
+    ALLOW_CALL(me, getName()).RETURN("TestMe");
+    ALLOW_CALL(other1, getName()).RETURN("TestOther1");
+    ALLOW_CALL(other2, getName()).RETURN("TestOther2");
     ALLOW_CALL(me, getHand()).RETURN(&myCards);
     REQUIRE_CALL(other1, hasEasyFish(3)).RETURN(true);
     ALLOW_CALL(other2, hasEasyFish(_)).RETURN(false);
 
-    optional<pair<Player*, int>> actual = testObject.goEasyFishing(&me, otherPlayers);
+    optional<pair<IPlayer*, int>> actual = testObject.goEasyFishing(&me, otherPlayers);
 
     CHECK(actual.has_value());
-    Player* actualPlayer = actual.value().first;
+    IPlayer* actualPlayer = actual.value().first;
     CHECK(&other1 == actualPlayer);
     CHECK(3 == actual.value().second);
 }
 
 TEST_CASE("StrategyHelperTest-getBaitCard") {
+    MockMvcController m_mockController;
     Deck deck;
     StrategyHelper testObject;
-    MockPlayer me("TestObj", deck);
+    MockPlayer me;
     vector<Card*> myCards = {
         new Card(3, Card::hearts),
         new Card(3, Card::diamonds),

@@ -4,18 +4,19 @@
 
 #include "TurnHelper.h"
 #include "Log.h"
+#include "MvcController.h"
 
 using namespace std;
 
-TurnHelper::TurnHelper(StrategyHelper &helper, Player& me)
+TurnHelper::TurnHelper(IStrategyHelper &helper, IPlayer& me)
 :m_helper(helper),
 m_me(me){
 
 }
 
-bool TurnHelper::easyFish(std::vector<Player *> &players)
+bool TurnHelper::easyFish(std::vector<IPlayer *> &players)
 {
-    optional<pair<Player*, int>> optPlayerAndBait = m_helper.goEasyFishing(&m_me, players);
+    optional<pair<IPlayer*, int>> optPlayerAndBait = m_helper.goEasyFishing(&m_me, players);
     if (optPlayerAndBait.has_value())
     {
         L_(ldebug1) << "Fishing the easy way";
@@ -35,7 +36,7 @@ bool TurnHelper::easyFish(std::vector<Player *> &players)
     return false;
 }
 
-bool TurnHelper::hardFish(std::vector<Player *> &players, Deck& deck)
+bool TurnHelper::hardFish(std::vector<IPlayer *> &players, Deck& deck)
 {
     if( auto p = m_helper.getFishPlayer(players))
     {
@@ -43,7 +44,7 @@ bool TurnHelper::hardFish(std::vector<Player *> &players, Deck& deck)
             L_(ldebug1) << "Fishing the hard way with: " << p.value()->getName();
             int bait = m_helper.getBaitCard(&m_me);
             m_me.pushEasyFish(bait);
-            optional<pair<Player *, int>> optPlayerAndBait = make_pair(p.value(), bait);
+            optional<pair<IPlayer *, int>> optPlayerAndBait = make_pair(p.value(), bait);
             vector<Card *> cards = askPlayer(optPlayerAndBait);
             if (!cards.empty()) {
                 L_(ldebug1) << " Hard-won cards size: " << cards.size();
@@ -74,7 +75,7 @@ bool TurnHelper::deckFish(Deck& deck, int bait)
     }
 }
 
-vector<Card*> TurnHelper::askPlayer(std::optional<std::pair<Player*, int>>& optPair)
+vector<Card*> TurnHelper::askPlayer(std::optional<std::pair<IPlayer*, int>>& optPair)
 {
     if(optPair.has_value())
     {

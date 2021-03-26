@@ -3,6 +3,7 @@
 #include "GoFishUtil.h"
 #include "Player.h"
 #include "Deck.h"
+#include "MockMvcController.h"
 
 #include <vector>
 
@@ -11,22 +12,23 @@
 using namespace std;
 
 TEST_CASE("GoFishUtilTest-RemovePlayer") {
+    MockMvcController m_mockController;
     Deck deck;
-    Player p1("one", deck);
+    Player p1("one", deck, &m_mockController);
     p1.pushHandCard(deck.dealCard());
-    Player p2("two", deck);
+    Player p2("two", deck, &m_mockController);
     p2.pushHandCard(deck.dealCard());
-    Player p3("three", deck);
+    Player p3("three", deck, &m_mockController);
     p3.pushHandCard(deck.dealCard());
-    vector<Player*> players = {&p1, &p2, &p3};
+    vector<IPlayer*> players = {&p1, &p2, &p3};
 
-    GoFishUtil testObject(false);
-    vector<Player*> withoutP2 = testObject.removePlayer(players, &p2);
+    GoFishUtil testObject;
+    vector<IPlayer*> withoutP2 = testObject.removePlayer(players, &p2);
     CHECK(2 == withoutP2.size());
 }
 
 TEST_CASE("GoFishUtilTest-Random") {
-    GoFishUtil testObject(false);
+    GoFishUtil testObject;
     cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
     cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;
     cout << "Order: " << testObject.getRandomNumber(0, 3) << endl;

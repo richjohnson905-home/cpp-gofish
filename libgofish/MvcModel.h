@@ -23,6 +23,7 @@ private:
     std::string m_name2;
     std::string m_name3;
     std::string m_winner;
+    std::string m_playAction;
 
     int const ROW_COUNT = 20;
 
@@ -48,6 +49,9 @@ public:
     int getRound() const {return m_round;}
     void setWinner(std::string winner);
     std::string getWinner() const {return m_winner;}
+
+    void setPlayAction(std::string action);
+    std::string getPlayAction() const {return m_playAction;}
 
 
 };

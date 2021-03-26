@@ -7,11 +7,10 @@
 
 using namespace std;
 
-GoFishGame::GoFishGame(vector<Player*>& playerVec, int cardCount, Deck& deck, MvcController& controller):
+GoFishGame::GoFishGame(vector<IPlayer*>& playerVec, int cardCount, Deck& deck, MvcController& controller):
     m_players(playerVec), 
     m_cardCount(cardCount),
     m_deck(deck),
-    m_util(true),
     m_mvcController(controller){
 
 }
@@ -27,7 +26,7 @@ void GoFishGame::playRound(int round) {
 
 void GoFishGame::doPlayRound() {
     for (auto & m_player : m_players) {
-        vector<Player*> playersMinusMe = m_util.removePlayer(m_players, m_player);
+        vector<IPlayer*> playersMinusMe = m_util.removePlayer(m_players, m_player);
         if (m_player->getHandSize()) {
             m_player->takeTurn(playersMinusMe);
         }
@@ -60,7 +59,7 @@ void GoFishGame::sortHands() {
 
 bool GoFishGame::checkWinner(int round) {
     if (allDone()) {
-        Player* w = winner();
+        IPlayer* w = winner();
         sortHands();
         showHands(m_mvcController);
         m_mvcController.setWinner(w->getName());
@@ -70,11 +69,11 @@ bool GoFishGame::checkWinner(int round) {
     return false;
 }
 
-Player* GoFishGame::winner() {
+IPlayer* GoFishGame::winner() {
     auto max_val = max_element(
         begin(m_players), 
         end(m_players),
-        [](const Player* a, const Player* b)
+        [](const IPlayer* a, const IPlayer* b)
         {
             return a->getBooks().size() < b->getBooks().size();
         });
