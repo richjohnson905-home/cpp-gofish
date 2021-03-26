@@ -2,8 +2,8 @@
 
 #include "HumanStrategy.h"
 #include "StrategyHelper.h"
-#include "MockPlayer.h"
-#include "MockStrategyHelper.h"
+#include "mocks/MockPlayer.h"
+#include "mocks/MockStrategyHelper.h"
 #include "Deck.h"
 
 using namespace std;

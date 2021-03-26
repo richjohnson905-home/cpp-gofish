@@ -1,4 +1,4 @@
-#include "trompeloeil.hpp"
+#include "../trompeloeil.hpp"
 #include "Player.h"
 
 class MockPlayer : public IPlayer

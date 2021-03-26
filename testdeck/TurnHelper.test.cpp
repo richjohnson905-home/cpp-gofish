@@ -3,8 +3,8 @@
 //
 
 #include "catch.hpp"
-#include "MockStrategyHelper.h"
-#include "MockPlayer.h"
+#include "mocks/MockStrategyHelper.h"
+#include "mocks/MockPlayer.h"
 #include "../libgofish/TurnHelper.h"
 
 #include <iostream>

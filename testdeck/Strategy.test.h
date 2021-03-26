@@ -1,12 +1,12 @@
 #include "Card.h"
 #include "Deck.h"
 #include "Strategy.h"
-#include "MockStrategyHelper.h"
-#include "MockPlayer.h"
+#include "mocks/MockStrategyHelper.h"
+#include "mocks/MockPlayer.h"
 
 #include "trompeloeil.hpp"
-#include "MockTurnHelper.h"
-#include "MockMvcController.h"
+#include "mocks/MockTurnHelper.h"
+#include "mocks/MockMvcController.h"
 
 // The fixture for testing class Foo.
 class StrategyTest {

@@ -5,7 +5,7 @@
 #ifndef GOFISH_MOCKMVCCONTROLLER_H
 #define GOFISH_MOCKMVCCONTROLLER_H
 
-#include "trompeloeil.hpp"
+#include "../trompeloeil.hpp"
 #include "MvcController.h"
 
 class MockMvcController : public IMvcController {

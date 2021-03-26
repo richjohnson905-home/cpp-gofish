@@ -20,11 +20,11 @@ add_executable(CardTest Card.test.cpp catch.hpp catch.cpp Player.test.h)
 add_test(NAME CardTest COMMAND CardTest)
 target_link_libraries(CardTest libdeck)
 
-add_executable(StrategyTest Strategy.test.cpp catch.hpp catch.cpp  MockTurnHelper.h)
+add_executable(StrategyTest Strategy.test.cpp catch.hpp catch.cpp mocks/MockTurnHelper.h)
 add_test(NAME StrategyTest COMMAND StrategyTest )
 target_link_libraries(StrategyTest libgofish)
 
-add_executable(TurnHelperTest TurnHelper.test.cpp catch.hpp catch.cpp MockStrategyHelper.h)
+add_executable(TurnHelperTest TurnHelper.test.cpp catch.hpp catch.cpp mocks/MockStrategyHelper.h)
 add_test(NAME TurnHelperTest COMMAND TurnHelperTest )
 target_link_libraries(TurnHelperTest libgofish)
 
@@ -32,7 +32,7 @@ add_executable(GoFishUtilTest GoFishUtil.test.cpp catch.hpp catch.cpp)
 add_test(NAME GoFishUtilTest COMMAND GoFishUtilTest )
 target_link_libraries(GoFishUtilTest libgofish)
 
-add_executable(PlayerTest Player.test.cpp catch.hpp catch.cpp MockMvcController.h)
+add_executable(PlayerTest Player.test.cpp catch.hpp catch.cpp mocks/MockMvcController.h)
 add_test(NAME PlayerTest COMMAND PlayerTest )
 target_link_libraries(PlayerTest libgofish)
 

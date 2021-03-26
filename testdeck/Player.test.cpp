@@ -2,7 +2,7 @@
 
 #include "../libgofish/Player.h"
 #include "Deck.h"
-#include "MockMvcController.h"
+#include "mocks/MockMvcController.h"
 #include "Player.test.h"
 
 using namespace std;

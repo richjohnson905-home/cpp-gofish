@@ -1,6 +1,6 @@
-#include "trompeloeil.hpp"
+#include "../trompeloeil.hpp"
 #include "CardCompare.h"
-#include "../libgofish/StrategyHelper.h"
+#include "StrategyHelper.h"
 #include "Card.h"
 
 class MockStrategyHelper : public IStrategyHelper

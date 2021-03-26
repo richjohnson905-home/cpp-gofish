@@ -1,8 +1,8 @@
 #include "catch.hpp"
 
 #include "StrategyHelper.h"
-#include "MockPlayer.h"
-#include "MockMvcController.h"
+#include "mocks/MockPlayer.h"
+#include "mocks/MockMvcController.h"
 
 using namespace std;
 using trompeloeil::_;
