@@ -14,6 +14,7 @@ class IMvcController {
 public:
     virtual void updateView(std::ostream& out) = 0;
     virtual void updatePlayAction(std::ostream& out) = 0;
+    virtual void setPlayAction(std::string action) = 0;
 };
 
 class MvcController : public IMvcController {

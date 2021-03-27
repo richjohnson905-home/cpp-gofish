@@ -16,7 +16,7 @@ private:
 
     const int PRECISION = 25;
     const int ROW_COUNT = 20;
-    const bool m_slow = true;
+    const bool m_slow = false;
 
     void renderHeader(std::ostream& out);
     void renderTable(std::ostream& out);

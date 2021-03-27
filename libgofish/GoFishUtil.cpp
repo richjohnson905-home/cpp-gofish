@@ -2,7 +2,7 @@
 #include "Player.h"
 
 #include <algorithm>
-#include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -10,16 +10,17 @@ vector<IPlayer*> GoFishUtil::removePlayer(const vector<IPlayer*>& players, IPlay
     vector<IPlayer*> result;
     vector<IPlayer*>::const_iterator iter;
     for (iter = players.begin(); iter != players.end(); ++iter) {
-        if (*iter != player) { //} && (*iter)->getHandSize() > 0) {
+        if (*iter != player) {
             result.push_back(*iter);
         }
     }
     return result;
 }
 
-int GoFishUtil::getRandomNumber(int min, int max) const
+int GoFishUtil::getRandomNumber(int min, int max)
 {
-    srand (time(NULL));
-    int myRandomNumber = rand() % max;
-    return myRandomNumber;
+    random_device rd;
+    mt19937 mt(rd());
+    uniform_real_distribution<double> dist(0.0, max);
+    return dist(mt);
 }

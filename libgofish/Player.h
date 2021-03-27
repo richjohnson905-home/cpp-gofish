@@ -18,13 +18,13 @@ public:
     virtual const std::vector<Card*>* getHand() const = 0;
     virtual void makeBooks() = 0;
     virtual void pushEasyFish(int fish) = 0;
-    virtual bool hasEasyFish(int bait) const = 0;
-    virtual int getHandSize() const = 0;
+    [[nodiscard]] virtual bool hasEasyFish(int bait) const = 0;
+    [[nodiscard]] virtual int getHandSize() const = 0;
     virtual std::vector<Card*> askPlayerForCards(IPlayer* p, int bait) = 0;
     virtual std::string getName() = 0;
     virtual std::vector<Card*> doYouHave(int bait) = 0;
     virtual void takeTurn(std::vector<IPlayer*>& players) = 0;
-    virtual std::vector<int> getBooks() const = 0;
+    [[nodiscard]] virtual std::vector<int> getBooks() const = 0;
     virtual void sortHand() = 0;
 };
 
@@ -43,21 +43,21 @@ protected:
 
 public:
     Player(std::string name, Deck& deck, IMvcController* controller);
-    virtual ~Player() {}
+    virtual ~Player() = default;
 
-    virtual int getHandSize() const;
-    virtual void pushHandCard(Card* c);
-    virtual void pushHand(std::vector<Card*> cards);
-    virtual const std::vector<Card*>* getHand() const {return &m_hand;}
-    virtual std::vector<Card*> doYouHave(int bait);
-    virtual std::vector<Card*> askPlayerForCards(IPlayer* p, int bait);
-    virtual void pushEasyFish(int fish);
-    virtual bool hasEasyFish(int bait) const;
-    virtual void makeBooks();
-    virtual std::string getName() {return m_name;}
-    virtual void takeTurn(std::vector<IPlayer*>& players);
-    virtual void sortHand();
-    virtual std::vector<int> getBooks() const {return m_books;}
+    [[nodiscard]] int getHandSize() const override;
+    void pushHandCard(Card* c) override;
+    void pushHand(std::vector<Card*> cards) override;
+    [[nodiscard]] const std::vector<Card*>* getHand() const override {return &m_hand;}
+    std::vector<Card*> doYouHave(int bait) override;
+    std::vector<Card*> askPlayerForCards(IPlayer* p, int bait) override;
+    void pushEasyFish(int fish) override;
+    [[nodiscard]] bool hasEasyFish(int bait) const override;
+    void makeBooks() override;
+    std::string getName() override {return m_name;}
+    void takeTurn(std::vector<IPlayer*>& players) override;
+    void sortHand() override;
+    [[nodiscard]] std::vector<int> getBooks() const override {return m_books; }
 
     void showHand() const;
     void setStrategy(IStrategy* strategy);

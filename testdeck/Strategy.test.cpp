@@ -1,17 +1,14 @@
 
 #include "Strategy.test.h"
-#include "Strategy.h"
-#include "Log.h"
 #include "catch.hpp"
-#include "catch2/trompeloeil.hpp"
 
-#include <vector>
 #include <optional>
 
 using namespace std;
 using trompeloeil::_;
 
-StrategyTest::StrategyTest()
+StrategyTest::StrategyTest():
+        testObject(mockTurnHelper, m_me, m_deck)
 {
     
 }
@@ -28,9 +25,6 @@ using trompeloeil::_;
 
 TEST_CASE_METHOD(StrategyTest, "TakeTurn-EasyFishing")
 {
-    MockStrategyHelper mockStrategyHelper;
-    MockTurnHelper mockTurnHelper;
-    Strategy testObject(mockTurnHelper, m_me, m_deck);
     ALLOW_CALL(m_me, getName()).RETURN("TestMe");
     REQUIRE_CALL(mockTurnHelper, easyFish(m_otherPlayers)).RETURN(false);
     REQUIRE_CALL(mockTurnHelper, hardFish(m_otherPlayers, _)).RETURN(false);
@@ -41,9 +35,6 @@ TEST_CASE_METHOD(StrategyTest, "TakeTurn-EasyFishing")
 TEST_CASE_METHOD(StrategyTest, "EasyFishing2")
 {
     trompeloeil::sequence seq;
-    MockStrategyHelper mockStrategyHelper;
-    MockTurnHelper mockTurnHelper;
-    Strategy testObject(mockTurnHelper, m_me, m_deck);
     ALLOW_CALL(m_me, getName()).RETURN("TestMe");
     REQUIRE_CALL(mockTurnHelper, easyFish(m_otherPlayers))
         .RETURN(true)
@@ -61,9 +52,6 @@ TEST_CASE_METHOD(StrategyTest, "EasyFishing2")
 TEST_CASE_METHOD(StrategyTest, "hardFishing1")
 {
     trompeloeil::sequence seq;
-    MockStrategyHelper mockStrategyHelper;
-    MockTurnHelper mockTurnHelper;
-    Strategy testObject(mockTurnHelper, m_me, m_deck);
     ALLOW_CALL(m_me, getName()).RETURN("TestMe");
     REQUIRE_CALL(mockTurnHelper, easyFish(m_otherPlayers))
             .RETURN(false)
@@ -82,9 +70,6 @@ TEST_CASE_METHOD(StrategyTest, "hardFishing1")
 TEST_CASE_METHOD(StrategyTest, "hardFishing2")
 {
     trompeloeil::sequence seq;
-    MockStrategyHelper mockStrategyHelper;
-    MockTurnHelper mockTurnHelper;
-    Strategy testObject(mockTurnHelper, m_me, m_deck);
     ALLOW_CALL(m_me, getName()).RETURN("TestMe");
     REQUIRE_CALL(mockTurnHelper, easyFish(m_otherPlayers))
             .RETURN(false)

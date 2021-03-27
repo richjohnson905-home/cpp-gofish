@@ -10,8 +10,9 @@
 
 class MockMvcController : public IMvcController {
 public:
-    MAKE_MOCK1(updateView, void(std::ostream& out));
-    MAKE_MOCK1(updatePlayAction, void(std::ostream& out));
+    MAKE_MOCK1(updateView, void(std::ostream&));
+    MAKE_MOCK1(updatePlayAction, void(std::ostream&));
+    MAKE_MOCK1(setPlayAction, void(std::string));
 
 };
 

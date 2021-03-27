@@ -2,13 +2,7 @@
 #include "Deck.h"
 #include "Deck.test.h"
 
-//using ::testing::Return;
-
 DeckTest::DeckTest() {
-    // Have qux return true by default
-    //ON_CALL(m_bar,qux()).WillByDefault(Return(true));
-    // Have norf return false by default
-    //ON_CALL(m_bar,norf()).WillByDefault(Return(false));
 }
 
 DeckTest::~DeckTest() {};

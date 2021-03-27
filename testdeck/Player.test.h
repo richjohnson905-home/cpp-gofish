@@ -29,11 +29,7 @@ protected:
 
     // The mock bar library shared by all tests
     MockMvcController m_mockController;
-//    MockPlayer m_me;
-//    MockPlayer m_otherPlayer;
-//    MockTurnHelper m_turnHelper;
-//    std::vector<Player*> m_otherPlayers;
     Deck m_deck;
-//    Strategy m_testObject;
+    Player m_testObject;
 };
 #endif //GOFISH_PLAYER_TEST_H

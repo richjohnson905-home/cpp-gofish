@@ -16,7 +16,7 @@ bool Player::customCompare(const Card* lhs, const Card* rhs) {
 Player::Player(string name, Deck& deck, IMvcController* controller)
 :m_name(move(name)),
 m_deck(deck),
- m_pStrategy(nullptr),
+m_pStrategy(nullptr),
 m_pController(controller){
 
 }
@@ -45,6 +45,9 @@ void Player::sortHand() {
 }
 
 void Player::takeTurn(vector<IPlayer*>& players) {
+    string banner = "\nIt is " + m_name + "'s turn";
+    m_pController->setPlayAction(banner);
+    m_pController->updatePlayAction(cout);
     m_pStrategy->takeTurn(players);
 }
 
@@ -58,10 +61,13 @@ vector<Card*> Player::askPlayerForCards(IPlayer* p, int bait) {
 
 vector<Card*> Player::doYouHave(int bait) {
     stringstream ss;
-    for(auto it = m_hand.begin(); it != m_hand.end(); ++it) {
-        ss << (*it)->getValue() << " ";
+    for(auto & it : m_hand) {
+        ss << it->getValue() << " ";
     }
     L_(ldebug1) << "\t" << m_name << " being asked for " << bait << " from my " << ss.str();
+    string banner = "\n" + m_name + "  being asked for " + to_string(bait);
+    m_pController->setPlayAction(banner);
+    m_pController->updatePlayAction(cout);
     
     popEasyFish(bait);
 
@@ -79,7 +85,6 @@ vector<Card*> Player::doYouHave(int bait) {
 }
 
 void Player::makeBooks() {
-
     map<int, int> frequency;
     for(Card* i: m_hand) {
         ++frequency[i->getValue()];
@@ -101,7 +106,9 @@ void Player::pushEasyFish(int fish) {
 }
 
 void Player::popEasyFish(int fish) {
-    m_easyFish.erase(std::remove(m_easyFish.begin(), m_easyFish.end(), fish), m_easyFish.end());
+    m_easyFish.erase(
+            std::remove(m_easyFish.begin(),m_easyFish.end(), fish),
+                    m_easyFish.end());
 }
 
 bool Player::hasEasyFish(int bait) const {

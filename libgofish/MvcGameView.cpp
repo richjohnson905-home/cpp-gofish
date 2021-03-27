@@ -98,14 +98,8 @@ void MvcGameView::renderTable(std::ostream& out) {
 }
 
 void MvcGameView::renderFooter(std::ostream &out) {
-//    out << "Books" << endl;
-//    vector<optional<int>> b1 = m_model.getPlayer1Books();
-//    string b1Display = getBookDisplay(b1);
-//    vector<optional<int>> b2 = m_model.getPlayer2Books();
-//    string b2Display = getBookDisplay(b2);
-//    vector<optional<int>> b3 = m_model.getPlayer3Books();
-//    string b3Display = getBookDisplay(b3);
-//    out << left << setw(PRECISION) << b1Display << setw(PRECISION) << b2Display << right << setw(PRECISION) << b3Display << endl;
+    out << endl;
+    out << "\t\t=============== END OF ROUND " << m_model.getRound() << " ===============" << endl;
 }
 
 void MvcGameView::renderFooter2(std::ostream &out) {

@@ -31,9 +31,10 @@ protected:
     virtual void TearDown();
 
     // The mock bar library shared by all tests
-    MockMvcController m_mockController;
+    MockTurnHelper mockTurnHelper;
     MockPlayer m_me;
     MockPlayer m_otherPlayer;
     std::vector<IPlayer*> m_otherPlayers;
     Deck m_deck;
+    Strategy testObject;
 };

@@ -15,14 +15,14 @@ int main(int argc, char *argv[]) {
     GoFishUtil util;
     //util.printMsgEnd("GoFish Game time");
 
-    //util.printMsgEnd("Players: Eva, Jarvis and Rich");
+    //util.printMsgEnd("Players: Ava, Jarvis and Rich");
     MvcModel model;
     MvcGameView view(model);
     MvcController controller(view, model);
 
     Deck deck;
     std::vector<IPlayer*> players;
-    Player ai1("Eva", deck, &controller);
+    Player ai1("Ava", deck, &controller);
     Player ai2("Jarvis", deck, &controller);
     Player h("Rich", deck, &controller);
 
@@ -31,17 +31,17 @@ int main(int argc, char *argv[]) {
         players.push_back(&ai1);
         players.push_back(&ai2);
         players.push_back(&h);
-        controller.setNames("Eva", "Jarvis", "Rich");
+        controller.setNames("Ava", "Jarvis", "Rich");
     } else if (order == 1) {
         players.push_back(&ai2);
         players.push_back(&h);
         players.push_back(&ai1);
-        controller.setNames("Jarvis", "Rich", "Eva");
+        controller.setNames("Jarvis", "Rich", "Ava");
     } else {
         players.push_back(&h);
         players.push_back(&ai1);
         players.push_back(&ai2);
-        controller.setNames("Rich", "Eva", "Jarvis");
+        controller.setNames("Rich", "Ava", "Jarvis");
     }
 
     StrategyHelper helper;

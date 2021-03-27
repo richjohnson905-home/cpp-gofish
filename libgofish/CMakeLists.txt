@@ -8,7 +8,9 @@ set(libgofish_SRCS
         StrategyHelper.cpp
         TurnHelper.cpp
         Player.cpp
-        MvcGameView.cpp MvcController.cpp MvcController.h MvcModel.cpp MvcModel.h)
+        MvcGameView.cpp
+        MvcController.cpp
+        MvcModel.cpp )
 
 # Declare the library
 add_library(libgofish STATIC
