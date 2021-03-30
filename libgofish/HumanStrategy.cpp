@@ -5,7 +5,7 @@
 
 #include <iostream>
 
-using namespace std;
+using std::vector;
 
 HumanStrategy::HumanStrategy(IPlayer* myPlayer, Deck& deck, IStrategyHelper& helper)
 :m_me(myPlayer), m_helper(helper), m_deck(deck) {

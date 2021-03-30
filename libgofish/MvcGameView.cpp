@@ -10,7 +10,11 @@
 #include <chrono>
 #include <thread>
 
-using namespace std;
+using std::vector;
+using std::string;
+using std::endl;
+using std::optional;
+using std::stringstream;
 
 MvcGameView::MvcGameView(MvcModel& model):m_model(model) {
 
@@ -44,7 +48,7 @@ void MvcGameView::renderHeader(std::ostream &out) {
 }
 
 std::string MvcGameView::getCardDisplay(std::optional<Card*>& card) {
-    stringstream ss;
+    std::stringstream ss;
     if (card.has_value()) {
         ss << card.value()->getValue();
     } else {

@@ -6,7 +6,15 @@
 #include <vector>
 #include <iostream>
 
-using namespace std;
+using std::pair;
+using std::make_pair;
+using std::nullopt;
+using std::optional;
+using std::cout;
+using std::endl;
+using std::cin;
+using std::set;
+using std::vector;
 
 optional<pair<IPlayer*, int>> StrategyHelper::goEasyFishing(IPlayer* me, std::vector<IPlayer*>& players) {
     vector<Card*>::const_iterator cit;

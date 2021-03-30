@@ -4,7 +4,7 @@
 #include <algorithm>
 #include <random>
 
-using namespace std;
+using std::vector;
 
 vector<IPlayer*> GoFishUtil::removePlayer(const vector<IPlayer*>& players, IPlayer* player) {
     vector<IPlayer*> result;
@@ -19,6 +19,7 @@ vector<IPlayer*> GoFishUtil::removePlayer(const vector<IPlayer*>& players, IPlay
 
 int GoFishUtil::getRandomNumber(int min, int max)
 {
+    using namespace std;
     random_device rd;
     mt19937 mt(rd());
     uniform_real_distribution<double> dist(0.0, max);

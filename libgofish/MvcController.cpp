@@ -4,13 +4,15 @@
 
 #include "MvcController.h"
 
-using namespace std;
+using std::vector;
+using std::cout;
+using std::string;
 
 MvcController::MvcController(MvcGameView& view, MvcModel& model): m_view(view), m_model(model) {
 
 }
 
-void MvcController::updateView(ostream& out) {
+void MvcController::updateView(std::ostream& out) {
     m_view.render(out);
 }
 

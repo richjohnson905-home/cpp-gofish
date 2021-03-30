@@ -3,7 +3,6 @@
 
 #include "Card.h"
 #include "Deck.h"
-#include "MvcController.h"
 
 #include <vector>
 #include <set>
@@ -37,12 +36,11 @@ protected:
     std::vector<int> m_books;
     Deck& m_deck;
     std::vector<int> m_easyFish;
-    IMvcController* m_pController;
 
     static bool customCompare(const Card *lhs, const Card *rhs);
 
 public:
-    Player(std::string name, Deck& deck, IMvcController* controller);
+    Player(std::string name, Deck& deck);
     virtual ~Player() = default;
 
     [[nodiscard]] int getHandSize() const override;

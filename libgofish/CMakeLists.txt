@@ -10,7 +10,7 @@ set(libgofish_SRCS
         Player.cpp
         MvcGameView.cpp
         MvcController.cpp
-        MvcModel.cpp )
+        MvcModel.cpp GoFishConfig.cpp GoFishConfig.h)
 
 # Declare the library
 add_library(libgofish STATIC

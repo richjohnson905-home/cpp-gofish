@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 // The fixture for testing class Foo.
 class DeckTest {

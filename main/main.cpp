@@ -1,79 +1,83 @@
-#include <iostream>
 #include <vector>
 #include <MvcGameView.h>
-#include "MvcController.h"
+#include <GoFishConfig.h>
 
 #include "GoFishGame.h"
-#include "Player.h"
-#include "Strategy.h"
-#include "StrategyHelper.h"
-#include "TurnHelper.h"
 #include "Log.h"
 
+#include "CLI/CLI.hpp"
+
+int cli11Example(int argc, char **argv);
+int playGame();
+
 int main(int argc, char *argv[]) {
+    int simple = 0;
+    if (simple) {
+        CLI::App app;
+
+        bool flag_bool;
+        app.add_flag("--bool,-b", flag_bool, "This is a bool flag");
+
+        int flag_int;
+        app.add_flag("-i,--int", flag_int, "This is an int flag");
+
+        CLI::Option *flag_plain = app.add_flag("--plain,-p", "This is a plain flag");
+
+        CLI11_PARSE(app, argc, argv);
+    } else {
+        cli11Example(argc, argv);
+    }
+
     initLogger( "mylogfile.log", ldebug1);
-    GoFishUtil util;
-    //util.printMsgEnd("GoFish Game time");
 
-    //util.printMsgEnd("Players: Ava, Jarvis and Rich");
-    MvcModel model;
-    MvcGameView view(model);
-    MvcController controller(view, model);
-
-    Deck deck;
-    std::vector<IPlayer*> players;
-    Player ai1("Ava", deck, &controller);
-    Player ai2("Jarvis", deck, &controller);
-    Player h("Rich", deck, &controller);
-
-    int order = util.getRandomNumber(0, 3);
-    if (order == 0) {
-        players.push_back(&ai1);
-        players.push_back(&ai2);
-        players.push_back(&h);
-        controller.setNames("Ava", "Jarvis", "Rich");
-    } else if (order == 1) {
-        players.push_back(&ai2);
-        players.push_back(&h);
-        players.push_back(&ai1);
-        controller.setNames("Jarvis", "Rich", "Ava");
-    } else {
-        players.push_back(&h);
-        players.push_back(&ai1);
-        players.push_back(&ai2);
-        controller.setNames("Rich", "Ava", "Jarvis");
-    }
-
-    StrategyHelper helper;
-    TurnHelper turnHelper1(helper, ai1);
-    TurnHelper turnHelper2(helper, ai2);
-    TurnHelper turnHelperH(helper, h);
-    Strategy goFishStrategyAi1(turnHelper1, ai1, deck);
-    Strategy goFishStrategyAi2(turnHelper2, ai2, deck);
-    if (argc > 1) {
-//        HumanStrategy humanStrategy(&h, deck, helper);
-//        h.setStrategy(&humanStrategy);
-    } else {
-        Strategy goFishStrategyAi3(turnHelperH, h, deck);
-        h.setStrategy(&goFishStrategyAi3);
-    }
-    // Strategy goFishStrategyAi3(helper, h, deck);
-    //HumanStrategy humanStrategy(&h, deck, helper);
-
-    ai1.setStrategy(&goFishStrategyAi1);
-    ai2.setStrategy(&goFishStrategyAi2);
-    //h.setStrategy(&humanStrategy);
-
-    GoFishGame g(players, 7, deck, controller);
-    g.deal();
+    GoFishConfig config;
+    GoFishGame game = config.getGame();
+    game.deal();
 
     for (int i = 0; i < 20; ++i) {
-        g.playRound(i + 1);
-        if (g.checkWinner(i + 1)) {
+        game.playRound(i + 1);
+        if (game.checkWinner(i + 1)) {
             break;
         }
     }
 
     endLogger();
+    return 0;
+}
+
+int cli11Example(int argc, char **argv) {
+    CLI::App app{"Geet, a command line git lookalike that does nothing"};
+    app.require_subcommand(1);
+    auto add = app.add_subcommand("add", "Add file(s)");
+
+    bool add_update;
+    add->add_flag("-u,--update", add_update, "Add updated files only");
+
+    std::vector<std::string> add_files;
+    add->add_option("files", add_files, "Files to add");
+
+    add->callback([&]() {
+        std::cout << "Adding:";
+        if(add_files.empty()) {
+            if(add_update)
+                std::cout << " all updated files";
+            else
+                std::cout << " all files";
+        } else {
+            for(auto file : add_files)
+                std::cout << " " << file;
+        }
+    });
+
+    auto commit = app.add_subcommand("commit", "Commit files");
+
+    std::string commit_message;
+    commit->add_option("-m,--message", commit_message, "A message")->required();
+
+    commit->callback([&]() { std::cout << "Commit message: " << commit_message; });
+
+    CLI11_PARSE(app, argc, argv);
+
+    std::cout << "\nThanks for using geet!\n" << std::endl;
     return 0;
 }

@@ -1,0 +1,6 @@
+[submodule "extern/CLI11"]
+	path = extern/CLI11
+	url = ../../CLIUtils/CLI11.git
+[submodule "extern/catch2"]
+	path = extern/catch2
+	url = ../../catchorg/catch2.git

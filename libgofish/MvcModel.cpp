@@ -4,7 +4,8 @@
 
 #include "MvcModel.h"
 
-using namespace std;
+using std::optional;
+using std::vector;
 
 void MvcModel::setRound(int round) {
     m_round = round;

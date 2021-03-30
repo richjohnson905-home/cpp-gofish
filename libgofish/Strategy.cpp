@@ -4,7 +4,7 @@
 
 #include <iostream>
 
-using namespace std;
+using std::vector;
 
 Strategy::Strategy(ITurnHelper& turnHelper, IPlayer& myPlayer, Deck& deck)
 :m_me(myPlayer),

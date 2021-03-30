@@ -2,10 +2,10 @@
 #include "Log.h"
 
 #include <iostream>
-#include <sstream>
 #include <algorithm>
 
-using namespace std;
+using std::vector;
+using std::cout;
 
 GoFishGame::GoFishGame(vector<IPlayer*>& playerVec, int cardCount, Deck& deck, MvcController& controller):
     m_players(playerVec), 

@@ -1,4 +1,4 @@
-#include "catch.hpp"
+#include <catch2/catch_test_macros.hpp>
 
 #include "GoFishUtil.h"
 #include "Player.h"
@@ -14,11 +14,11 @@ using namespace std;
 TEST_CASE("GoFishUtilTest-RemovePlayer") {
     MockMvcController m_mockController;
     Deck deck;
-    Player p1("one", deck, &m_mockController);
+    Player p1("one", deck);
     p1.pushHandCard(deck.dealCard());
-    Player p2("two", deck, &m_mockController);
+    Player p2("two", deck);
     p2.pushHandCard(deck.dealCard());
-    Player p3("three", deck, &m_mockController);
+    Player p3("three", deck);
     p3.pushHandCard(deck.dealCard());
     vector<IPlayer*> players = {&p1, &p2, &p3};
 

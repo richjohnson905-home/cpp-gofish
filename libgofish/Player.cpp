@@ -6,18 +6,23 @@
 #include <map>
 #include <utility>
 
-using namespace std;
+using std::string;
+using std::endl;
+using std::cout;
+using std::stringstream;
+using std::to_string;
+using std::vector;
+using std::map;
 
   // Static Sort hand by card value function
 bool Player::customCompare(const Card* lhs, const Card* rhs) { 
     return lhs->getValue() < rhs->getValue(); 
 }
 
-Player::Player(string name, Deck& deck, IMvcController* controller)
+Player::Player(string name, Deck& deck)
 :m_name(move(name)),
 m_deck(deck),
-m_pStrategy(nullptr),
-m_pController(controller){
+m_pStrategy(nullptr){
 
 }
 
@@ -34,7 +39,7 @@ void Player::pushHand(vector<Card*> cards) {
 }
 
 void Player::showHand() const {
-    cout << m_name << "'s Hand contains: " << m_hand.size() << endl;
+//    cout << m_name << "'s Hand contains: " << m_hand.size() << endl;
     for (auto it : m_hand) {
         cout << ' ' << it->show() << endl;
     }
@@ -45,9 +50,9 @@ void Player::sortHand() {
 }
 
 void Player::takeTurn(vector<IPlayer*>& players) {
-    string banner = "\nIt is " + m_name + "'s turn";
-    m_pController->setPlayAction(banner);
-    m_pController->updatePlayAction(cout);
+//    string banner = "\nIt is " + m_name + "'s turn";
+//    m_pController->setPlayAction(banner);
+//    m_pController->updatePlayAction(cout);
     m_pStrategy->takeTurn(players);
 }
 
@@ -66,8 +71,8 @@ vector<Card*> Player::doYouHave(int bait) {
     }
     L_(ldebug1) << "\t" << m_name << " being asked for " << bait << " from my " << ss.str();
     string banner = "\n" + m_name + "  being asked for " + to_string(bait);
-    m_pController->setPlayAction(banner);
-    m_pController->updatePlayAction(cout);
+//    m_pController->setPlayAction(banner);
+//    m_pController->updatePlayAction(cout);
     
     popEasyFish(bait);
 

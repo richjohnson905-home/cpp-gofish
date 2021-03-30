@@ -6,7 +6,10 @@
 #include "Log.h"
 #include "MvcController.h"
 
-using namespace std;
+using std::pair;
+using std::vector;
+using std::optional;
+using std::make_pair;
 
 TurnHelper::TurnHelper(IStrategyHelper &helper, IPlayer& me)
 :m_helper(helper),
